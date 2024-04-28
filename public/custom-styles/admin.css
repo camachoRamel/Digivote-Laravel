@@ -1,0 +1,77 @@
+:root{
+    --progress-bar-width: 0px;
+}
+#progress{
+    max-width: 350px;
+    width: calc(var(--progress-bar-width) + 1000px);
+}
+#cards-container > *{
+    height: 100px;
+}
+
+main{
+    min-height: min-content;
+}
+
+#window-container{
+    height: 500px;
+}
+
+#main-tally-container{
+    height: 87.5%;
+}
+
+@media only screen and (min-width: 768px) {
+    #window-container{
+        height: 600px;
+    }
+    
+    #main-tally-container{
+        height: 80%;
+    }
+
+}
+
+#lc-heading{
+    color: #f2f2f2;
+}
+
+/* nav */
+#user-profile-container{
+    height: 50px;
+    width: 50px;
+}
+
+#candidate-profile-container{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../images/sample.PNG");
+    min-height: 40px;
+    min-width: 40px;
+    max-width: 40px;
+}
+
+#profile-name-container{
+    width: 50px;
+    height: 20px;
+    bottom: -18px;
+    left: -10px;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.accordion-button:focus,
+.accordion-button:active{
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+header{
+    z-index: 10;
+}
+
+#accordion-container{
+    height: 70%;
+}
