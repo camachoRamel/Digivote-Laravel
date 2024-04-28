@@ -67,21 +67,6 @@
     //     }
     //     logIn($username, $password);
     // }
-
-    // require_once 'twilio-php-app/vendor/autoload.php';
-    // use Twilio\Rest\Client;
-
-    // $sid    = "ACfbf13411731d1dac13e08c35d0b9e49d";
-    // $token  = "dd4e053650f1cd473d400233d64d596d";
-    // $twilio = new Client($sid, $token);
-
-    // $message = $twilio->messages
-    //   ->create("+639476168206", // to
-    //     array(
-    //       "from" => "+12138085553",
-    //       "body" => 9999
-    //     )
-    //   );
 ?>
 
 <!DOCTYPE html>
