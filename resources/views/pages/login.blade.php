@@ -1,83 +1,9 @@
-<?php
-    // session_start();
+@extends('layouts.app')
 
-    // //function to log in
-    // function logIn($username, $password){
-    //     include "assets/tools/connect.php";
-
-    //     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password' LIMIT 1";
-
-    //     $result = mysqli_query($conn, $query);
-
-    //     if($result && !empty($password) && !empty($username)){
-    //         if(mysqli_num_rows($result) == 1){
-    //             //log in success
-    //             $row = $result->fetch_assoc();
-    //             if(!isset($_SESSION['current_user_id'])){
-    //                 $_SESSION['current_user_id'] = $row['user_id'];
-
-    //             }if($_SESSION['current_user_id'] == 0){
-    //                 //superAdmin.php does not exist yet
-    //                 header('Location: assets/pages/superAdmin.php');
-    //             }else if($_SESSION['current_user_id'] == 1){
-    //                 header('Location: assets/pages/admin.php');
-    //             }else if($_SESSION['current_user_id'] == 2){
-    //                 //student.php does not exits yet
-    //                 header('Location: assets/pages/verify.php');
-    //             }
-
-    //         }else{
-    //             $errors['password'] = "Wrong password or username";
-    //         }
-    //     }
-    //     mysqli_free_result($result);
-    //     mysqli_close($conn);
-    // }
+<title>Log in</title>
 
 
-
-    // $errors = ['username' => '', 'password' => ''];
-    // $username = $password = '';
-
-    // //called when a cookie is set
-    // if(isset($_COOKIE['remember'])){
-    //     $pieces = explode(',', $_COOKIE['remember']);
-    //     $username = $pieces[0];
-    //     $password = $pieces[1];
-
-    //     logIn($username, $password);
-
-    // }
-    // if(isset($_POST['submit'])){
-    //     if(empty($_POST['username'])){
-    //         $errors['username'] = 'Empty username field <br>';
-    //     }else{
-    //         $username = $_POST['username'];
-    //     }
-
-    //     if(empty($_POST['password'])){
-    //         $errors['password'] = 'Empty password field <br>';
-    //     }else{
-    //         $password = $_POST['password'];
-    //     }
-
-    //     //sets the cookie
-    //     if(isset($_POST['remember_me'])){
-    //         setcookie('remember', $username . ',' . $password);
-    //     }
-    //     logIn($username, $password);
-    // }
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
-</head>
-<body>
+@section('content')
     <main class="d-flex justify-content-center align-items-center vh-100">
         <div class="container-xs p-5 border rounded border-dark">
             <form name="form" action="" method="POST">
@@ -106,5 +32,4 @@
               </form>
         </div>
     </main>
-</body>
-</html>
+@endsection
