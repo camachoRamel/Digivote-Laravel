@@ -1,4 +1,5 @@
-    <header>
+<link rel="stylesheet" href="{{ asset('custom-styles/header.css') }}">
+   <header>
         <nav class="navbar navbar-expand-lg py-3 px-1 navbar-light px-lg-3">
             <div class="container-fluid">
                 <a href="" class="navbar-brand text-dark fw-bold fs-2">Digivote</a>
@@ -16,7 +17,7 @@
                 <div class="collapse navbar-collapse justify-content-end gap-3" id="main-nav">
                     <ul class="navbar-nav gap-2">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Dashboard</a>
+                            <a href="{{ route('admin.index') }}" class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Poll</a>

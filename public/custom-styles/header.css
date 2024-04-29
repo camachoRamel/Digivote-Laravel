@@ -2,15 +2,28 @@
     height: 50px;
     width: 50px;
 }
+
+#user-profile-container{
+    height: 50px;
+    width: 50px;
+}
+
 #profile-name-container{
     width: 50px;
     height: 20px;
     bottom: -18px;
     left: -10px;
 }
+
 .navbar-toggler:focus,
-.navbar-toggler:active{
+.navbar-toggler:active,
+.accordion-button:focus,
+.accordion-button:active{
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
+    background: none !important;
+}
+header{
+    z-index: 10;
 }

@@ -1,16 +1,16 @@
 $(document).ready(function() {
     let candidateImg = '<div class="rounded-circle border border-dark" id="candidate-profile-container"></div>';
-    let editBtn = '<button type="button" class="btn btn-outline-success" id="edit-btn"><i class="bi bi-pencil-square"></i></button>';
-    let removeBtn = '<button type="button" class="btn btn-outline-danger" id="remove-btn"><i class="bi bi-trash"></i></button>';
+    let editBtn = '<a href="candidate-edit.php" class="btn btn-dark">Edit <i class="bi bi-pencil-square"></i></a>';
+    let viewBtn = '<a href="candidate-view.php" class="btn btn-secondary">View <i class="bi bi-eye"></i></a>';
     let tempRow;
     
     let test = [
-        {name: 'Lasttest, Test, T', position: 'president', id: '1', img: `${candidateImg}`, number: '1', icon: 'icon', btns: `${editBtn} ${removeBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '2', img: `${candidateImg}`, number: '2', icon: 'icon', btns: `${editBtn} ${removeBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '3', img: `${candidateImg}`, number: '3', icon: 'icon', btns: `${editBtn} ${removeBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '4', img: `${candidateImg}`, number: '4', icon: 'icon', btns: `${editBtn} ${removeBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '5', img: `${candidateImg}`, number: '5', icon: 'icon', btns: `${editBtn} ${removeBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '6', img: `${candidateImg}`, number: '6', icon: 'icon', btns: `${editBtn} ${removeBtn}`}
+        {name: 'Lasttest, Test, T', position: 'president', id: '1', img: `${candidateImg}`, number: '1', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'president', id: '2', img: `${candidateImg}`, number: '2', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'president', id: '3', img: `${candidateImg}`, number: '3', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '4', img: `${candidateImg}`, number: '4', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '5', img: `${candidateImg}`, number: '5', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '6', img: `${candidateImg}`, number: '6', icon: 'icon', btns: `${viewBtn} ${editBtn}`}
     ]
 
    
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
         $('#main-tally-container').append(tallyRowContainer);
         
-        tallyRowContainer.append(
+            tallyRowContainer.append(
             imgNameContainer, 
             progressBarContainer,
             voteNumberContainer
@@ -89,7 +89,7 @@ $(document).ready(function() {
     setTimeout(() => {
         var groupColumn = 2;
         let candidateTable = $('#candidate-table').DataTable({
-            scrollY: 400,
+            scrollY: 500,
             // scrollY: '100px',
             // scrollCollapse: false,  
             paging: false,
@@ -98,12 +98,13 @@ $(document).ready(function() {
             columns: [
                 { data: 'img' },
                 { title: 'Candidate Name', data: 'name'},
-                // position is row is hidden but is responsible for row grouping
+
+                // position row is hidden but is responsible for row grouping
                 { data: 'position', visible: false},
 
                 { title: 'Party Icon', data: 'icon'},
                 { title: 'Ballot Number', data: 'number'},
-                { data: 'btns'},
+                { title: 'Controls',  data: 'btns'},
                 
             ],
             order: [[groupColumn, 'asc']],
