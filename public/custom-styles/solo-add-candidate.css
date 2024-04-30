@@ -1,0 +1,11 @@
+a{
+    text-decoration: none !important;
+}
+#main-container{
+    width: 400px;
+}
+@media only screen and (min-width: 768px){
+    #main-container{
+        width: 600px;
+    }   
+}
