@@ -1,19 +1,19 @@
 $(document).ready(function() {
     let candidateImg = '<div class="rounded-circle border border-dark" id="candidate-profile-container"></div>';
-    let editBtn = '<a href="candidate-edit.php" class="btn btn-dark">Edit <i class="bi bi-pencil-square"></i></a>';
-    let viewBtn = '<a href="candidate-view.php" class="btn btn-secondary">View <i class="bi bi-eye"></i></a>';
+    let editBtn = '<a href="' + candidateEditRoute + '"  class="btn btn-dark">Edit <i class="bi bi-pencil-square"></i></a>';
+    let viewBtn = '<a href="' + candidateViewRoute + '" class="btn btn-secondary">View <i class="bi bi-eye"></i></a>';
     let tempRow;
-    
+
     let test = [
-        {name: 'Lasttest, Test, T', position: 'president', id: '1', img: `${candidateImg}`, number: '1', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '2', img: `${candidateImg}`, number: '2', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '3', img: `${candidateImg}`, number: '3', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '4', img: `${candidateImg}`, number: '4', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '5', img: `${candidateImg}`, number: '5', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '6', img: `${candidateImg}`, number: '6', icon: 'icon', btns: `${viewBtn} ${editBtn}`}
+        {name: 'Lasttest, Test, T', position: 'president', id: '1', party: `Test Party`, number: '1', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'president', id: '2', party: `Test Party`, number: '2', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'president', id: '3', party: `Test Party`, number: '3', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '4', party: `Test Party`, number: '4', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '5', party: `Test Party`, number: '5', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
+        {name: 'Lasttest, Test, T', position: 'vice-president', id: '6', party: `Test Party`, number: '6', icon: 'icon', btns: `${viewBtn} ${editBtn}`}
     ]
 
-   
+
     // receive the candidates list file that was retrieved via php
     // $.ajax({
     //     url: '../tools/retrieve-db-data.php',
@@ -35,22 +35,22 @@ $(document).ready(function() {
         let tallyRowContainer = $('<div class="row align-items-center" id="tally-main-row-container"></div>');
 
     // Three main container children
-        let imgNameContainer = $('<div class="col-2 col-lg-3"></div>');
-        let progressBarContainer = $('<div class="col-8"></div>');
+        let nameContainer = $('<div class="col-4 col-lg-2"></div>');
+        let progressBarContainer = $('<div class="col-6 col-lg-9"></div>');
         let voteNumberContainer = $('<div class="col-2 col-lg-1"></div>');
 
-        // child container of imgNameContainer and progressBarContainer 
-        let childImgNameContainer = $(`<div class="d-flex ms-2 gap-3 align-items-center"></div>`);
+        // child container of nameContainer and progressBarContainer
+        let childNameContainer = $(`<div class="container"></div>`);
         let childprogressBarContainer = $(`<div class="progress rounded-0 me-auto">`);
 
         // contents of each main container child
-        
-        // two contents of imgNameContainer
-        let imgContent = $(`<div class="rounded-circle border border-dark text-center position-relative" id="candidate-profile-container">
-        IMG    
-        </div>`); 
-        let nameContent = $(`<h5 class="d-none d-lg-flex" id="tally-candidate-name">01-Jo-Avila</h5>`);
-    
+
+        // two contents of nameContainer
+        // let imgContent = $(`<div class="rounded-circle border border-dark text-center position-relative" id="candidate-profile-container">
+        // IMG
+        // </div>`);
+        let nameContent = $(`<h5 id="tally-candidate-name">01-Jo-Avila</h5>`);
+
         // progressbar content
         let progressBarContent = $(`<div class="progress-bar" id="progress" role="progressbar">
         </div>`);
@@ -60,22 +60,18 @@ $(document).ready(function() {
 
 
         $('#main-tally-container').append(tallyRowContainer);
-        
+
             tallyRowContainer.append(
-            imgNameContainer, 
+            nameContainer,
             progressBarContainer,
             voteNumberContainer
         );
-        
-        imgNameContainer.append(childImgNameContainer);
+
+        nameContainer.append(childNameContainer);
         progressBarContainer.append(childprogressBarContainer);
         voteNumberContainer.append(voteNumberContent);
 
-        childImgNameContainer.append(
-            imgContent,
-            nameContent
-        );
-
+        childNameContainer.append(nameContent);
         childprogressBarContainer.append(progressBarContent);
 
     }
@@ -85,35 +81,36 @@ $(document).ready(function() {
     }
 
 
-    //render list of candidates 
+    //render list of candidates
     setTimeout(() => {
         var groupColumn = 2;
         let candidateTable = $('#candidate-table').DataTable({
             scrollY: 500,
             // scrollY: '100px',
-            // scrollCollapse: false,  
+            // scrollCollapse: false,
             paging: false,
             info: false,
             data: test,
             columns: [
-                { data: 'img' },
-                { title: 'Candidate Name', data: 'name'},
+                { title: 'Party Icon', data: 'icon'},
+                { title: 'Party Name', data: 'party' },
 
                 // position row is hidden but is responsible for row grouping
                 { data: 'position', visible: false},
 
-                { title: 'Party Icon', data: 'icon'},
+                { title: 'Candidate Name', data: 'name'},
+
                 { title: 'Ballot Number', data: 'number'},
                 { title: 'Controls',  data: 'btns'},
-                
+
             ],
             order: [[groupColumn, 'asc']],
-            // ordering: false, 
+            // ordering: false,
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({ page: 'current' }).nodes();
                 var last = null;
-        
+
                 api.column(groupColumn, { page: 'current' })
                     .data()
                     .each(function (group, i) {
@@ -125,7 +122,7 @@ $(document).ready(function() {
                                     group +
                                     '</td></tr>'
                                 );
-    
+
                             last = group;
                         }
                     });
@@ -133,7 +130,7 @@ $(document).ready(function() {
         });
 
         candidateTable.columns.adjust().draw();
- 
+
         // Order by the grouping
         $('#candidate-table tbody').on('click', 'tr.group', function () {
             var currentOrder = table.order()[0];
@@ -147,7 +144,7 @@ $(document).ready(function() {
 
         $('#candidate-table button#edit-btn').on('click', function () {
             let row = $(this).closest('tr');
-            
+
             let rowIndex = row.index();
 
             let groupCounter = 0;
@@ -183,18 +180,18 @@ $(document).ready(function() {
         function changeAsInput(){
             $('#candidate-table tbody').on('click', 'tr', function () {
             var rowNode = candidateTable.row(this).data();
-    
+
             candidateTable.row(this).remove().draw();
 
 
             deselectionTable.row.add(rowNode).draw();
                 checkRowVal();
-            });      
+            });
         };
     }, 1000);
-    
-    
-    
-    
+
+
+
+
 
 });

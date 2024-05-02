@@ -15,7 +15,7 @@ $(document).ready(function() {
 
             let selectionTable = $('#selectionTable').DataTable({
                 paging: false,
-                scrollY: 200,   
+                scrollY: 200,
                 data: dataset,
                 columns: [
                     { title: "Name", data: 'name' },
@@ -38,20 +38,20 @@ $(document).ready(function() {
             $('#selectionTable').on('click', 'button#select-btn', function() {
                 let row = $(this).closest('tr');
                 let rowIndex = selectionTable.row(row).index(); // Use DataTables API to get row index
-            
+
                 var rowNode = selectionTable.row(rowIndex).data();
-            
+
                 // Remove row from selectionTable and add to deselectionTable
                 selectionTable.row(rowIndex).remove().draw();
                 deselectionTable.row.add(rowNode).draw();
             });
-            
+
             $('#selectedTable').on('click', 'button#remove-btn', function() {
                 let row = $(this).closest('tr');
                 let rowIndex = deselectionTable.row(row).index(); // Use DataTables API to get row index
-            
+
                 var rowNode = deselectionTable.row(rowIndex).data();
-            
+
                 // Remove row from deselectionTable and add to selectionTable
                 deselectionTable.row(rowIndex).remove().draw();
                 selectionTable.row.add(rowNode).draw();
@@ -76,39 +76,97 @@ $(document).ready(function() {
                 }
                 return rows;
             }
-        
+
             function outputVal(selectedRows){
                 $('#modal-body').html(" ");
-        
+
                 let selectVal = $('select').val();
-                $('.modal-title').html(`${selectVal}`);
+
+                let words = selectVal.split('_');
+
+                for (let i = 0; i < words.length; i++) {
+                    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+                }
+
+                let result = words.join(' ');
+
+                $('.modal-title').html(`${result}`);
                 selectedRows.forEach( element => {
                     $div = `<div> ${element['name']} </div>`;
                     $('#modal-body').append(`${$div}`);
                 });
             }
-        
-            function sendData(rowsData){
-                $.ajax({
-                    url: '../tools/receive-ajax-data.php',
-                    method: 'POST',   
-                    data: {myData: rowsData},
-                    success: function(response, status){
-                        console.log(status);
-                        console.log(response);
-        
-                    }
-                })
-            }
-        
-            $('#submitBtn').on('click', () => {
-                sendData(getSelectedRowsVal());
-            });
-        
+
             $('#modal-trigger-btn').on('click', () => {
                 outputVal(getSelectedRowsVal());
             });
-        
+
+            $('form').submit(function(event) {
+                event.preventDefault();
+
+                let candidatesData = [];
+
+                let reValue = getSelectedRowsVal();
+
+                reValue.forEach( candidate => {
+                    if (candidate.id !== '') {
+                        // Convert position name to position_id
+                        let positionId;
+                        switch (candidate['position']) {
+                            case 'president':
+                                positionId = 1;
+                                break;
+                            case 'vice_president':
+                                positionId = 2;
+                                break;
+                            case 'secretary':
+                                positionId = 3;
+                                break;
+                            case 'treasurer':
+                                positionId = 4;
+                                break;
+                            case 'auditor':
+                                positionId = 5;
+                                break;
+                            case 'business_manager_1':
+                                positionId = 6;
+                                break;
+                            case 'business_manager_2':
+                                positionId = 7;
+                                break;
+                            default:
+                                positionId = null;
+                        }
+                        candidatesData.push({
+                            stud_id: candidate.id,
+                            position_id: positionId,
+                            party_name: null,
+                            party_img: null
+                        });
+                    }
+                });
+
+
+                let formData = {
+                    candidates: candidatesData,
+                };
+
+                formData['_token'] =  `${csrfToken}`;
+
+                // Send the data to the Laravel controller using AJAX
+                $.ajax({
+                    url: '/candidate-save',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        window.location.href = response.redirect_url;
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
         }
     });
 });

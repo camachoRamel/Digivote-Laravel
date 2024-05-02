@@ -20,13 +20,13 @@
                             <a href="{{ route('admin.index') }}" class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Poll</a>
+                            <a href="{{ route('admin.candidate-poll') }}" class="nav-link">Poll</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Candidates</a>
+                            <a href="{{ route('admin.candidate-list') }}" class="nav-link">Candidates</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Voted</a>
+                            <a href="{{ route('admin.voters') }}" class="nav-link">Voters</a>
                         </li>
                     </ul>
                     <div class="rounded-circle d-lg-flex border border-dark justify-content-center position-relative d-none" id="user-profile-container">
