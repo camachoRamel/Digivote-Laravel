@@ -1,13 +1,13 @@
 $(document).ready(function() {
     let dataset = [];
     let positions = {
-        president: {name: '', id: ''},
-        vice_president: {name: '', id: ''},
-        secretary: {name: '', id: ''},
-        treasurer: {name: '', id: ''},
-        auditor: {name: '', id: ''},
-        business_manager_1: {name: '', id: ''},
-        business_manager_2: {name: '', id: ''}
+        president: {name: '', id: '', position: ''},
+        vice_president: {name: '', id: '', position: ''},
+        secretary: {name: '', id: '', position: ''},
+        treasurer: {name: '', id: '', positon: ''},
+        auditor: {name: '', id: '', position: ''},
+        business_manager_1: {name: '', id: '', position: ''},
+        business_manager_2: {name: '', id: '', position: ''}
     };
 
     let selectBtnGen = '<button type="button" class="btn btn-dark" id="select-btn">select</button>';
@@ -43,27 +43,30 @@ $(document).ready(function() {
                     let rowIndex = selectionTable.row(row).index(); // Use DataTables API to get row index
 
                     var rowNode = selectionTable.row(rowIndex).data();
-                    console.log(rowNode)
                     //condition to add the previous student selected to the table
                     if(positions[`${clickedPosi}`]['id'] != rowNode['id']){
                         reAdd();
                     }
+
                     positions[`${clickedPosi}`] = rowNode;
+                    positions[`${clickedPosi}`]['position'] = `${clickedPosi}`;
                     selectionTable.row(rowIndex).remove().draw();
                     //set the content for the position ex: 'president: Student Name'
-                    $(`#${clickedPosi}-candidate`).html(rowNode['name'] + ", " + rowNode['id']);
+                    $(`input#${clickedPosi}`).val(rowNode['name']);
                     //remove the highlight of the btn
                     if (event.originalEvent != undefined) {
                         highlightBtn();
                     }
                     $('#selectionTable').off('click', 'button#select-btn');
+
                     determinePosition();
+
                 });
             };
 
             function highlightBtn(){
-                $(`#${clickedPosi}`).removeClass('btn-dark').addClass('btn-outline-dark');
-                clickedPosi = '';
+                $(`button#${clickedPosi}`).removeClass('btn-dark').addClass('btn-outline-dark');
+                    clickedPosi = '';
             }
 
             function reAdd(){
@@ -77,43 +80,123 @@ $(document).ready(function() {
                 //get the current position clicked
                 $('.position-btn').click(function(){
                     clickedPosi = $(this).attr('id');
-                    $(`#${clickedPosi}`).removeClass('btn-outline-dark').addClass('btn-dark')
+                    $(`button#${clickedPosi}`).removeClass('btn-outline-dark').addClass('btn-dark')
                     //remove event listener to prevent clicking other select btn
                     $('.position-btn').off('click');
                     selectionTableEvent();
                 });
             }
 
-            // Get the filename
-            $('#party-icon-file').change(function() {
-                icon = `${$(this).val().split('\\').pop()}`;
+            $('#modal-trigger-btn').on('click', function() {
+                let finalData = finalizeData(); // Call finalizeData with the extracted values
+
+                let test = finalData['partyContent']['position'];
+                console.log(finalData)
+
+                $('#modal-table-body tr').html(" ");
+
+                Object.keys(finalData.partyContent).forEach(key => {
+                    let str = finalData.partyContent[key].position;
+
+                    let words = str.split('_');
+
+                    for (let i = 0; i < words.length; i++) {
+                        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+                    }
+
+                    let result = words.join(' ');
+
+                    let tr = $('<tr></tr>');
+                    let positionTd = $(`<td>${result}</td>`);
+                    let nameTd = $(`<td>${finalData.partyContent[key].name}</td>`);
+                    let idTd = $(`<td>${finalData.partyContent[key].id}</td>`);
+
+                    tr.append(positionTd, nameTd, idTd);
+                    $('#modal-table-body').append(tr);
+                });
             });
 
-            function sendData(rowsData){
-                $.ajax({
-                    url: '../tools/receive-ajax-data.php',
-                    method: 'POST',
-                    data: {partyData: rowsData},
-                    success: function(response, status){
-                        console.log(status);
-                        console.log(response);
-
+            function finalizeData() {
+                let disposableData = {};
+                Object.keys(positions).forEach(key => {
+                    if (positions[key].name !== '') {
+                        delete positions[key]['selectBtn'];
+                        delete positions[key]['removeBtn'];
+                        disposableData[key] = positions[key];
                     }
-                })
+                });
+
+                let finalData = {
+                    partyContent: disposableData
+                };
+
+                return finalData;
             }
 
-            $('#submit-btn').on('click', function() {
-                let partyNameVal = $('#party-name-input').val();
-                let finalData = {
-                    partyName: `${partyNameVal}`,
-                    partyIcon: `${icon}`,
-                    partyContent: {
+            $('form').submit(function(event) {
+                event.preventDefault();
 
-                }}
-                finalData['partyContent'] = Object.assign({}, positions);
-                sendData(finalData);
+                let candidatesData = [];
+
+                Object.keys(positions).forEach(key => {
+                    let candidate = positions[key];
+                    if (candidate.id !== '') {
+                        // Convert position name to position_id
+                        let positionId;
+                        switch (candidate['position']) {
+                            case 'president':
+                                positionId = 1;
+                                break;
+                            case 'vice_president':
+                                positionId = 2;
+                                break;
+                            case 'secretary':
+                                positionId = 3;
+                                break;
+                            case 'treasurer':
+                                positionId = 4;
+                                break;
+                            case 'auditor':
+                                positionId = 5;
+                                break;
+                            case 'business_manager_1':
+                                positionId = 6;
+                                break;
+                            case 'business_manager_2':
+                                positionId = 7;
+                                break;
+                            default:
+                                positionId = null;
+                        }
+                        candidatesData.push({
+                            stud_id: candidate.id,
+                            position_id: positionId,
+                            party_name: $('#party_name').val(),
+                            party_img: $('#party_icon').val().split('\\').pop()
+                        });
+                    }
+                });
+
+
+                let formData = {
+                    candidates: candidatesData,
+                };
+
+                formData['_token'] =  `${csrfToken}`;
+
+                // Send the data to the Laravel controller using AJAX
+                $.ajax({
+                    url: '/candidate-save',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        window.location.href = response.redirect_url;
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
             });
-
             determinePosition();
         }
     });

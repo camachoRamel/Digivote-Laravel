@@ -14,8 +14,8 @@ class Candidate extends Model
 
     protected $guarded = [];
 
-    public function parties() : HasOne{
-        return $this->hasOne(Party::class);
+    public function parties() : BelongsTo{
+        return $this->belongsTo(Party::class);
     }
 
     public function user() : BelongsTo{

@@ -4,6 +4,17 @@
 
 @section('content')
 
+    @if (session()->has('success'))
+    <div class="alert alert-success mt-3" role="alert">
+        {{ session('success') }}
+    </div>
+    @elseif (session()->has('danger'))
+    <div class="alert alert-danger mt-3" role="alert">
+        {{ session('danger') }}
+    </div>
+    @endif
+
+    {{-- <a href="{{ route('candidate.test') }}">Test</a> --}}
     {{-- <main class="container bg-light d-flex flex-column gap-4 p-1"> --}}
         <div class="container-fluid">
             <h3 class="fw-bold">Final Voting Time:</h3>
@@ -13,23 +24,23 @@
             <div class="row d-flex flex-lg-row flex-column gap-2" id="cards-container">
                 <div class="col p-4 shadow d-flex align-items-center">
                     <h5 class="me-auto">Overall Candidates</h5>
-                    <div class="d-flex gap-2 justify-content-end">
+                    <div class="d-flex gap-3 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href="" class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href="{{ route('admin.candidate-list') }}" class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
                 </div>
-                <div class="col p-4 shadow d-flex align-items-center">
+                {{-- <div class="col p-4 shadow d-flex align-items-center">
                     <h5 class="me-auto">Number of Voters</h5>
                     <div class="d-flex gap-2 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href="" class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href="{{ route('admin.voters') }}" class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col p-4 shadow d-flex align-items-center">
                     <h5 class="me-auto">Overall Voters</h5>
-                    <div class="d-flex gap-2 justify-content-end">
+                    <div class="d-flex gap-3 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href="" class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href=" {{ route('admin.voters') }} " class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +60,7 @@
                <!-- Rows are added dynamically -->
             </div>
 
-            <a href="" class="btn btn-dark position-absolute bottom-0 end-0 m-5 ">Show all</a>
+            <a href="{{ route('admin.candidate-poll') }}" class="btn btn-dark position-absolute bottom-0 end-0 m-5 ">Show all</a>
 
         </div>
         <!-- tally -->
@@ -68,7 +79,7 @@
 
             <div class="row py-2">
                 <div class="col d-flex gap-2 justify-content-end">
-                    <button type="button" class="btn btn-secondary">Show All</button>
+                    <a href="{{ route('admin.candidate-list') }}" class="btn btn-secondary">Show all</a>
                     <div class="dropdown">
                         <button type="button" class="btn btn-dark" id="add-dropdown" data-bs-toggle="dropdown" aria-expanded="false">Add</button>
                         <ul class="dropdown-menu" aria-labelledby="add-dropdown">
@@ -84,7 +95,10 @@
         </div>
 
     {{-- </main> --}}
-
-    <script defer src="../custom-scripts/admin.js"></script>
+    <script defer>
+        var candidateEditRoute = "{{ route('admin.candidate-edit') }}";
+        var candidateViewRoute = "{{ route('admin.candidate-view') }}";
+    </script>
+    <script defer src="{{ asset('custom-scripts/admin.js') }}"></script>
 
 @endsection

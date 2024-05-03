@@ -5,8 +5,7 @@
 @section('content')
 
     <div class="container">
-        list
-
+        poll
     </div>
 
 @endsection

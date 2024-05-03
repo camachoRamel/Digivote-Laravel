@@ -1,0 +1,6 @@
+.profile-img-test {
+    width: 150px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
