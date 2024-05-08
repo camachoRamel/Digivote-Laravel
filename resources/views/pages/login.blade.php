@@ -6,7 +6,8 @@
 @section('content')
     <main class="d-flex justify-content-center align-items-center vh-100">
         <div class="container-xs p-5 border rounded border-dark">
-            <form name="form" action="" method="POST">
+            <form name="form" action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control" name="username" id="floatingInput username" placeholder="Username">
                   <label for="floatingInput">Username</label>
@@ -22,7 +23,16 @@
                     Remember password
                   </label>
                 </div>
-
+                {{-- error --}}
+                @error('username')
+                    <p class="text-danger">Incorrect username or password</p>
+                @enderror
+                @error('password')
+                    <p class="text-danger">Incorrect username or password</p>
+                @enderror
+                @if (session()->has('incorrect'))
+                    <p class="text-danger">Incorrect Username or Password</p>
+                @endif
                 <div class="d-grid">
                   <button class="btn btn-lg btn-dark btn-login text-uppercase fw-bold mb-2" type="submit" name="submit">Sign in</button>
                   <div class="text-center">

@@ -17,7 +17,9 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $guarded = [];
-
+    protected $casts = [
+        'password' => 'hashed'
+    ];
 
     public function voter() : HasOne{
         return $this->hasOne(Voter::class);

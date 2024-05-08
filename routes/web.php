@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\LoginLogoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ Route::post('/candidate-save', [CandidateController::class, 'saveCandidate'])->n
 
 Route::get('/admin', function () {
     return view('pages.admin.index');
-})->name('admin.index');
+})->middleware(['auth','admin'])->name('admin.index');
 
 Route::get('/admin/candidate-list', function () {
     return view('pages.admin.candidate-list');
@@ -49,8 +50,9 @@ Route::get('/admin/candidate-view', function () {
     return view('pages.admin.candidate-view');
 })->name('admin.candidate-view');
 
-Route::get('/log', [UserController::class, 'index'])->name('user.login');
+Route::post('/login', [LoginLogoutController::class, 'authenticate'])->name('login');
 
 Route::get('/', function () {
     return view('pages.login');
-});
+})->name('index');
+
