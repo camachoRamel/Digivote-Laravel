@@ -14,6 +14,8 @@ class Student extends Model
 
     protected $guarded = [];
 
+    protected $primaryKey = 'stud_id';
+
     public function user() : HasOne{
         return $this->hasOne(User::class);
     }
