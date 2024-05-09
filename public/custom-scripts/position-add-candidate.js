@@ -138,10 +138,10 @@ $(document).ready(function() {
                                 positionId = null;
                         }
                         candidatesData.push({
-                            stud_id: candidate.id,
-                            position_id: positionId,
                             party_name: null,
-                            party_img: null
+                            party_img: null,
+                            stud_id: candidate.id,
+                            position_id: positionId
                         });
                     }
                 });
@@ -153,16 +153,18 @@ $(document).ready(function() {
 
                 formData['_token'] =  `${csrfToken}`;
 
+                console.log(formData)
                 // Send the data to the Laravel controller using AJAX
                 $.ajax({
-                    url: '/candidate-save',
+                    url: `/admin/candidate-save`,
                     method: 'POST',
                     data: formData,
                     success: function(response) {
                         window.location.href = response.redirect_url;
                     },
                     error: function(xhr, status, error) {
-                        console.error(error);
+                        console.error(xhr);
+                        console.log(error);
                     }
                 });
             });

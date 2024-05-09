@@ -19,22 +19,49 @@
                             <img class="profile-img-test img-fluid" src="{{ asset('images/sample.PNG') }}" alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center">Nina Mcintire</h3>
+                        @php
+                            $party = $compiledData['party'];
+                            $candidate = $compiledData['candidate'];
+                            $student = $compiledData['student'];
+                            $candidatePosition = $compiledData['candidate']->position_id;
+                        @endphp
 
-                        <p class="text-muted text-center">President</p>
+                        <h3 class="profile-username text-center">{{ $student->stud_firstname . " " .  $student->stud_middlename . " ". $student->stud_lastname  }}</h3>
+
+                        @switch($candidatePosition)
+                        @case(1)
+                            <p class="text-muted text-center">President</p>
+                            @break
+                        @case(2)
+                            <p class="text-muted text-center">Vice President</p>
+                            @break
+                        @case(3)
+                            <p class="text-muted text-center">Secretary</p>
+                            @break
+                        @case(4)
+                            <p class="text-muted text-center">Treasurer</p>
+                            @break
+                        @case(5)
+                            <p class="text-muted text-center">Auditor</p>
+                            @break
+                        @case(6)
+                            <p class="text-muted text-center">Business Manager 1</p>
+                            @break
+                        @case(7)
+                            <p class="text-muted text-center">Business Manager 2</p>
+                            @break
+                        @endswitch
+                        {{-- <p class="text-muted text-center">President</p> --}}
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Party Name: </b> Test Party
+                                <b>Party Name: </b> {{ $party->party_name ?? 'No Party'}}
                             </li>
                             <li class="list-group-item">
-                                <b>Party Icon:</b> Test icon
+                                <b>Party Icon:</b> {{ $party->party_icon ?? 'No Party'}}
                             </li>
                             <li class="list-group-item">
-                                <b>Ballot Number:</b> 102
-                            </li>
-                            <li class="list-group-item">
-                                <b>Candidate ID:</b> 102
+                                <b>Candidate ID:</b> {{ $candidate->candidate_id }}
                             </li>
                         </ul>
 
@@ -48,7 +75,7 @@
     <!-- content end -->
 
     <section class="content-footer">
-        view
+
     </section>
 
 @endsection

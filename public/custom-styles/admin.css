@@ -42,11 +42,10 @@ main{
 }
 
 
-#candidate-profile-container{
+#party-icon{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-image: url("../images/sample.PNG");
     min-height: 40px;
     min-width: 40px;
     max-width: 40px;
