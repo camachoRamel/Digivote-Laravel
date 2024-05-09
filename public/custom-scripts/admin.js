@@ -1,34 +1,4 @@
 $(document).ready(function() {
-    let candidateImg = '<div class="rounded-circle border border-dark" id="candidate-profile-container"></div>';
-    let editBtn = '<a href="' + candidateEditRoute + '"  class="btn btn-dark">Edit <i class="bi bi-pencil-square"></i></a>';
-    let viewBtn = '<a href="' + candidateViewRoute + '" class="btn btn-secondary">View <i class="bi bi-eye"></i></a>';
-    let tempRow;
-
-    let test = [
-        {name: 'Lasttest, Test, T', position: 'president', id: '1', party: `Test Party`, number: '1', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '2', party: `Test Party`, number: '2', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'president', id: '3', party: `Test Party`, number: '3', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '4', party: `Test Party`, number: '4', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '5', party: `Test Party`, number: '5', icon: 'icon', btns: `${viewBtn} ${editBtn}`},
-        {name: 'Lasttest, Test, T', position: 'vice-president', id: '6', party: `Test Party`, number: '6', icon: 'icon', btns: `${viewBtn} ${editBtn}`}
-    ]
-
-
-    // receive the candidates list file that was retrieved via php
-    // $.ajax({
-    //     url: '../tools/retrieve-db-data.php',
-    //     dataType: 'json',
-    //     // If ajax success pass the response into an array, as the array will serve as the dataset for the data table
-    //     success: function(response){
-    //             response.forEach(element => {
-    //                 let initialize = {name: `${element['name']}`, id: `${element['id']}`, selectBtn: `${selectBtnGen}`, removeBtn: `${removeBtnGen}`};
-    //                 dataset.push(initialize);
-    //             // dataset.push()
-    //             });
-    //     }
-    // });
-
-
     // Render Tally
     function renderTally(){
         //main container
@@ -80,32 +50,14 @@ $(document).ready(function() {
         renderTally();
     }
 
-
     //render list of candidates
-    setTimeout(() => {
         var groupColumn = 2;
         let candidateTable = $('#candidate-table').DataTable({
             scrollY: 500,
-            // scrollY: '100px',
-            // scrollCollapse: false,
             paging: false,
             info: false,
-            data: test,
-            columns: [
-                { title: 'Party Icon', data: 'icon'},
-                { title: 'Party Name', data: 'party' },
-
-                // position row is hidden but is responsible for row grouping
-                { data: 'position', visible: false},
-
-                { title: 'Candidate Name', data: 'name'},
-
-                { title: 'Ballot Number', data: 'number'},
-                { title: 'Controls',  data: 'btns'},
-
-            ],
             order: [[groupColumn, 'asc']],
-            // ordering: false,
+
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({ page: 'current' }).nodes();
@@ -126,9 +78,8 @@ $(document).ready(function() {
                             last = group;
                         }
                     });
-            }
+            },
         });
-
         candidateTable.columns.adjust().draw();
 
         // Order by the grouping
@@ -141,57 +92,5 @@ $(document).ready(function() {
                 table.order([groupColumn, 'asc']).draw();
             }
         });
-
-        $('#candidate-table button#edit-btn').on('click', function () {
-            let row = $(this).closest('tr');
-
-            let rowIndex = row.index();
-
-            let groupCounter = 0;
-
-            row.prevAll('tr').each( function () {
-                if($(this).hasClass('group')){
-                    ++groupCounter;
-                }
-            });
-
-            var rowNode = candidateTable.row(rowIndex - groupCounter).data();
-            console.log(rowNode);
-
-            groupCounter = 0;
-            row.html('');
-
-            // column containers
-            let rowImgContainer = '<td> <div class="rounded-circle border border-dark" id="candidate-profile-container"></div> </td>';
-            let rowCandidateNameInput = `<td> <input type="text" class="form-control" value="${rowNode['name']}"></td>`;
-            let rowPartyIcon = `<td> <input type="text" class="form-control" value="${rowNode['icon']}"> </td>`;
-            let rowBallotNumber = `<td> <input type="number" class="form-control" value="${rowNode['number']}"> </td>`;
-            let rowBtns = `<td> <button type="button" class="btn btn-dark" id="edit-btn"> <i class="bi bi-check2-square"></i> </button> </td>`;
-
-            row.append(rowImgContainer, rowCandidateNameInput, rowPartyIcon, rowBallotNumber, rowBtns)
-
-            // console.log(rowNode)
-        });
-
-        $('#candidate-table button#remove-btn').on('click', function () {
-            console.log('r')
-        });
-
-        function changeAsInput(){
-            $('#candidate-table tbody').on('click', 'tr', function () {
-            var rowNode = candidateTable.row(this).data();
-
-            candidateTable.row(this).remove().draw();
-
-
-            deselectionTable.row.add(rowNode).draw();
-                checkRowVal();
-            });
-        };
-    }, 1000);
-
-
-
-
 
 });

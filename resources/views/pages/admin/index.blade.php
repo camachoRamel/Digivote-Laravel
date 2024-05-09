@@ -13,7 +13,6 @@
         {{ session('danger') }}
     </div>
     @endif
-
     {{-- <a href="{{ route('candidate.test') }}">Test</a> --}}
     {{-- <main class="container bg-light d-flex flex-column gap-4 p-1"> --}}
         <div class="container-fluid">
@@ -74,7 +73,68 @@
 
             <!-- accordion container -->
             <div class="row px-4" id="table-container">
-                <table class="table" id="candidate-table"></table>
+
+                <table class="table" id="candidate-table">
+                    <thead>
+                        <th>Party Icon</th>
+                        <th>Party Name</th>
+                        <th class="visibility-hidden">position</th>
+                        <th>Candidate Name</th>
+                        <th>Controls</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($compiledData as $data)
+                        <tr>
+                            @php
+                                $party =  $data['party'];
+                                $candidatePosition = $data['candidate']->position_id;
+                                $candidateID = $data['candidate']->candidate_id;
+                                $partyIcon = $data['party']->party_img ?? null;
+                                $test = null;
+                            @endphp
+
+
+                            @if($party !== null)
+                                <td> <img src="{{ asset('images/' . $partyIcon) }}" class="rounded-circle" id="party-icon" alt="party icon"> </td>
+                                <td>{{ $data['party']->party_name }}</td>
+                            @else
+                                <td>No Party</td>
+                                <td>No Party</td>
+                            @endif
+
+                            @switch($candidatePosition)
+                                @case(1)
+                                    <td class="visibility-hidden">President</td>
+                                    @break
+                                @case(2)
+                                    <td class="visibility-hidden">Vice President</td>
+                                    @break
+                                @case(3)
+                                    <td class="visibility-hidden">Secretary</td>
+                                    @break
+                                @case(4)
+                                    <td class="visibility-hidden">Treasurer</td>
+                                    @break
+                                @case(5)
+                                    <td class="visibility-hidden">Auditor</td>
+                                    @break
+                                @case(6)
+                                    <td class="visibility-hidden">Business Manager</td>
+                                    @break
+                                @case(7)
+                                    <td class="visibility-hidden">Business Manager</td>
+                                    @break
+                            @endswitch
+
+                            <td>{{ $data['student']->stud_lastname }}, {{ $data['student']->stud_firstname }} {{ $data['student']->stud_middlename }}</td>
+                            <td class="d-flex gap-2">
+                                <a href="{{ route('candidate.view', $candidateID) }}" class="btn btn-secondary">View <i class="bi bi-eye"></i></a>
+                                <a href="{{ route('candidate.edit', $candidateID) }}"  class="btn btn-dark">Edit <i class="bi bi-pencil-square"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
 
             <div class="row py-2">
@@ -95,10 +155,10 @@
         </div>
 
     {{-- </main> --}}
-    <script defer>
+    {{-- <script defer>
         var candidateEditRoute = "{{ route('admin.candidate-edit') }}";
         var candidateViewRoute = "{{ route('admin.candidate-view') }}";
-    </script>
+    </script> --}}
     <script defer src="{{ asset('custom-scripts/admin.js') }}"></script>
 
 @endsection

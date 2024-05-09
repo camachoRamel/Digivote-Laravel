@@ -88,54 +88,80 @@ $(document).ready(function() {
             }
 
             $('#modal-trigger-btn').on('click', function() {
-                let finalData = finalizeData(); // Call finalizeData with the extracted values
+                outputVal(getSelectedRowsVal());
+            });
 
-                let test = finalData['partyContent']['position'];
-                console.log(finalData)
+            function getSelectedRowsVal(){
+                let finalData = [];
+                let partyName = $('#party_name').val();
+                let partyImg =  $('#party_icon').val().split('\\').pop();
 
+                // get all the values from position then pass it to an array for easier constraint handling
+                Object.keys(positions).forEach(key => {
+                    if (positions[key].name !== '') {
+                        let initializeData = {
+                            name: positions[key]['name'],
+                            id: positions[key]['id'],
+                            position: positions[key]['position'],
+                            party_name: partyName,
+                            party_img: partyImg
+                        }
+                        finalData.push(initializeData);
+                    }
+                });
+                // get the number of candidates, party name and party img values
+                let constraintName = finalData[0].party_name;
+                let constraintImg =  finalData[0].party_img;
+                let constraintCount = finalData.length;
+                // party constraint: party name and party img is not null and candidate count is greater than 4
+                if(constraintName !== "" && constraintImg !== "" && constraintCount > 4){
+                    $('#reviewModal').modal('show');
+                }else {
+                    let message = [
+                        "Minumum of 5 candidates is required.",
+                        "Party info is incomplete."
+                    ];
+                    // prompt the error/s
+                    if( constraintName === "" && constraintImg === "" && constraintCount < 5){
+                        alert(message[0] + "\n" + message[1]);
+                    }else if(constraintCount < 5){
+                        alert(message[0]);
+                    }else if(constraintName === "" || constraintImg === ""){
+                        alert(message[1]);
+                    }
+                }
+                return finalData;
+            }
+
+            function outputVal(getSelectedRowsVal){
                 $('#modal-table-body tr').html(" ");
-
-                Object.keys(finalData.partyContent).forEach(key => {
-                    let str = finalData.partyContent[key].position;
-
+                getSelectedRowsVal.forEach(obj => {
+                    // Extract position name and capitalize it
+                    let str = obj.position;
                     let words = str.split('_');
-
                     for (let i = 0; i < words.length; i++) {
                         words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
                     }
-
                     let result = words.join(' ');
 
+                    // Create table row and data cells
                     let tr = $('<tr></tr>');
                     let positionTd = $(`<td>${result}</td>`);
-                    let nameTd = $(`<td>${finalData.partyContent[key].name}</td>`);
-                    let idTd = $(`<td>${finalData.partyContent[key].id}</td>`);
+                    let nameTd = $(`<td>${obj['name']}</td>`);
+                    let idTd = $(`<td>${obj['id']}</td>`);
 
+                    // Append data cells to table row
                     tr.append(positionTd, nameTd, idTd);
+
+                    // Append table row to table body
                     $('#modal-table-body').append(tr);
                 });
-            });
-
-            function finalizeData() {
-                let disposableData = {};
-                Object.keys(positions).forEach(key => {
-                    if (positions[key].name !== '') {
-                        delete positions[key]['selectBtn'];
-                        delete positions[key]['removeBtn'];
-                        disposableData[key] = positions[key];
-                    }
-                });
-
-                let finalData = {
-                    partyContent: disposableData
-                };
-
-                return finalData;
             }
 
             $('form').submit(function(event) {
                 event.preventDefault();
-
+                let partyName = $('#party_name').val();
+                let partyImg =  $('#party_icon').val().split('\\').pop();
                 let candidatesData = [];
 
                 Object.keys(positions).forEach(key => {
@@ -169,14 +195,13 @@ $(document).ready(function() {
                                 positionId = null;
                         }
                         candidatesData.push({
+                            party_name: partyName,
+                            party_img: partyImg,
                             stud_id: candidate.id,
-                            position_id: positionId,
-                            party_name: $('#party_name').val(),
-                            party_img: $('#party_icon').val().split('\\').pop()
+                            position_id: positionId
                         });
                     }
                 });
-
 
                 let formData = {
                     candidates: candidatesData,
@@ -186,14 +211,15 @@ $(document).ready(function() {
 
                 // Send the data to the Laravel controller using AJAX
                 $.ajax({
-                    url: '/candidate-save',
+                    url: `/admin/candidate-save`,
                     method: 'POST',
                     data: formData,
                     success: function(response) {
                         window.location.href = response.redirect_url;
                     },
                     error: function(xhr, status, error) {
-                        console.error(error);
+                        console.error(xhr);
+                        console.log(error);
                     }
                 });
             });

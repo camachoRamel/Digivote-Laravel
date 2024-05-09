@@ -14,6 +14,8 @@ class Candidate extends Model
 
     protected $guarded = [];
 
+    protected $primaryKey = 'candidate_id';
+
     public function parties() : BelongsTo{
         return $this->belongsTo(Party::class);
     }

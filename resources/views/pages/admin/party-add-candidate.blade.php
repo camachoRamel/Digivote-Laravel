@@ -69,11 +69,11 @@
                         <button class="btn btn-outline-dark position-btn" type="button" id="business_manager_2">select candidate</button>
                     </div>
 
-                    <button type="button" class="btn btn-dark w-100 mt-2" id="modal-trigger-btn" data-bs-toggle="modal" data-bs-target="#reviewModal">Submit</button>
+                    <button type="button" class="btn btn-dark w-100 mt-2" id="modal-trigger-btn">Submit</button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="reviewModalLabel"></h5>
