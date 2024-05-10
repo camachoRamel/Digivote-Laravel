@@ -1,54 +1,22 @@
 $(document).ready(function() {
-    // Render Tally
-    function renderTally(){
-        //main container
-        let tallyRowContainer = $('<div class="row align-items-center" id="tally-main-row-container"></div>');
 
-    // Three main container children
-        let nameContainer = $('<div class="col-4 col-lg-2"></div>');
-        let progressBarContainer = $('<div class="col-6 col-lg-9"></div>');
-        let voteNumberContainer = $('<div class="col-2 col-lg-1"></div>');
+    let progressCounter = 0;
 
-        // child container of nameContainer and progressBarContainer
-        let childNameContainer = $(`<div class="container"></div>`);
-        let childprogressBarContainer = $(`<div class="progress rounded-0 me-auto">`);
+    $.ajax({
+        url: '../tools/retrieve-votes.php',
+        dataType: 'json',
+        // If ajax success pass the response into an array, as the array will serve as the dataset for the data table
+        success: function(response){
+            response.forEach(element => {
+                ++progressCounter;
+                $(`.progress > .${progressCounter}`).width(element.votes);
+            });
+        }
+    });
 
-        // contents of each main container child
+    $('.progress > .1').width(200);
 
-        // two contents of nameContainer
-        // let imgContent = $(`<div class="rounded-circle border border-dark text-center position-relative" id="candidate-profile-container">
-        // IMG
-        // </div>`);
-        let nameContent = $(`<h5 id="tally-candidate-name">01-Jo-Avila</h5>`);
-
-        // progressbar content
-        let progressBarContent = $(`<div class="progress-bar" id="progress" role="progressbar">
-        </div>`);
-
-        // Number of Votes Content
-        let voteNumberContent = $(`<div class="d-flex justify-content-end align-items-center fs-5 fw-bold">100</div>`);
-
-
-        $('#main-tally-container').append(tallyRowContainer);
-
-            tallyRowContainer.append(
-            nameContainer,
-            progressBarContainer,
-            voteNumberContainer
-        );
-
-        nameContainer.append(childNameContainer);
-        progressBarContainer.append(childprogressBarContainer);
-        voteNumberContainer.append(voteNumberContent);
-
-        childNameContainer.append(nameContent);
-        childprogressBarContainer.append(progressBarContent);
-
-    }
-
-    for(let i = 0; i < 10; i++){
-        renderTally();
-    }
+    // $('#progress')
 
     //render list of candidates
         var groupColumn = 2;
@@ -81,6 +49,19 @@ $(document).ready(function() {
             },
         });
         candidateTable.columns.adjust().draw();
+
+
+        $('#tally-table').DataTable({
+            scrollY: 300,
+            paging: false,
+            info: false,
+            columns: [
+                { },
+                { sortable: false  },
+                {}
+            ]
+        });
+
 
         // Order by the grouping
         $('#candidate-table tbody').on('click', 'tr.group', function () {
