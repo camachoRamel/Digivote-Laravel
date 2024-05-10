@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class LoginLogoutController extends Controller
 {
     public function authenticate(Request $request){
-        dd();
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required'
@@ -34,6 +33,7 @@ class LoginLogoutController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerate();
+        return redirect('/');
     }
 
 }

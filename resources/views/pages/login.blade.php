@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
 <title>Log in</title>
 
@@ -24,13 +24,9 @@
                   </label>
                 </div>
                 {{-- error --}}
-                @error('username')
-                    <p class="text-danger">Incorrect username or password</p>
-                @enderror
-                @error('password')
-                    <p class="text-danger">Incorrect username or password</p>
-                @enderror
                 @if (session()->has('incorrect'))
+                    <p class="text-danger">Incorrect Username or Password</p>
+                @elseif($errors->any())
                     <p class="text-danger">Incorrect Username or Password</p>
                 @endif
                 <div class="d-grid">

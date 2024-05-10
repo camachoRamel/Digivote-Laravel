@@ -12,6 +12,7 @@ class Party extends Model
     use HasFactory;
 
     protected $table = 'parties';
+    protected $primaryKey = 'party_id';
     protected $guarded = [];
 
     public function candidate() :HasMany{
