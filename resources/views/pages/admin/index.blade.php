@@ -37,7 +37,7 @@
                     <h5 class="me-auto">Overall Voters</h5>
                     <div class="d-flex gap-3 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href=" {{ route('voters') }} " class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href="{{ route('voters') }}" class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
                 </div>
             </div>

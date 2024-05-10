@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\Party;
 use App\Models\Student;
+use App\Models\Position;
 
 class CandidateController extends Controller
 {
@@ -157,8 +158,15 @@ class CandidateController extends Controller
 
     public function displayVoters()
     {
-        $students = Student::select('stud_id', 'stud_firstname', 'stud-middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
+        $students = Student::select('stud_id', 'stud_firstname', 'stud_middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
 
         return view('pages.admin.voters', compact('students'));
+    }
+
+    public function displayBallotSheet()
+    {
+        $candidates = Candidate::select('candidate_id', 'position_id', 'stud_id', 'party_id', 'vote')->get();
+
+        return view('pages.user.index', compact('candidates'));
     }
 }

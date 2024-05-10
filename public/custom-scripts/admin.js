@@ -24,6 +24,14 @@ $(document).ready(function() {
             scrollY: 500,
             paging: false,
             info: false,
+            columns: [
+                { sortable: false },
+                {},
+                {},
+                {},
+                { sortable: false },
+
+            ],
             order: [[groupColumn, 'asc']],
 
             drawCallback: function (settings) {
@@ -74,4 +82,11 @@ $(document).ready(function() {
             }
         });
 
+    $('#test').on('click', function(){
+        console.log('test')
+    });
+
+    $('form').submit(function(event) {
+        console.log(1)
+    })
 });
