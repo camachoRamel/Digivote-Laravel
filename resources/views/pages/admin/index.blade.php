@@ -69,7 +69,7 @@
                         @php
                             $count = 0;
                         @endphp
-                        @foreach ($compiledData as $data)
+                        @foreach ($sortedCompiledData as $data)
                             @php
                                 $count++;
                             @endphp
@@ -110,12 +110,12 @@
                     <thead>
                         <th>Party Icon</th>
                         <th>Party Name</th>
-                        <th class="visibility-hidden">position</th>
+                        <th>Position</th>
                         <th>Candidate Name</th>
                         <th>Controls</th>
                     </thead>
                     <tbody>
-                        @foreach ($compiledData as $data)
+                        @foreach ($sortedCompiledData as $data)
                         <tr>
                             @php
                                 $party =  $data['party'];
@@ -124,8 +124,6 @@
                                 $partyIcon = $data['party']->party_img ?? null;
                                 $votes = $data['candidate']->vote;
                             @endphp
-
-
 
                             @if($party !== null)
                                 <td> <img src="{{ asset('images/' . $partyIcon) }}" class="rounded-circle" id="party-icon" alt="party icon"> </td>
@@ -137,25 +135,25 @@
 
                             @switch($candidatePosition)
                                 @case(1)
-                                    <td class="visibility-hidden">President</td>
+                                    <td>President</td>
                                     @break
                                 @case(2)
-                                    <td class="visibility-hidden">Vice President</td>
+                                    <td>Vice President</td>
                                     @break
                                 @case(3)
-                                    <td class="visibility-hidden">Secretary</td>
+                                    <td>Secretary</td>
                                     @break
                                 @case(4)
-                                    <td class="visibility-hidden">Treasurer</td>
+                                    <td>Treasurer</td>
                                     @break
                                 @case(5)
-                                    <td class="visibility-hidden">Auditor</td>
+                                    <td>Auditor</td>
                                     @break
                                 @case(6)
-                                    <td class="visibility-hidden">Business Manager</td>
+                                    <td>Business Manager</td>
                                     @break
                                 @case(7)
-                                    <td class="visibility-hidden">Business Manager</td>
+                                    <td>Business Manager</td>
                                     @break
                             @endswitch
 

@@ -25,7 +25,11 @@ class CandidateController extends Controller
                 'student' => $student
             ];
         }
-        return view('pages.admin.index', compact('compiledData'));
+
+
+        $sortedCompiledData = collect($compiledData)->sortBy('candidate.position_id')->values()->all();
+
+        return view('pages.admin.index', compact('sortedCompiledData'));
     }
 
     public function saveCandidate(Request $request)
@@ -166,7 +170,20 @@ class CandidateController extends Controller
     public function displayBallotSheet()
     {
         $candidates = Candidate::select('candidate_id', 'position_id', 'stud_id', 'party_id', 'vote')->get();
+        // $candidates->sortBy('position_id');
+        // Assuming you want to associate each candidate with a student
+        $compiledData = [];
+        foreach ($candidates as $candidate) {
+            $student = Student::where('stud_id', $candidate->stud_id)->first();
+            $compiledData[] = [
+                'candidate' => $candidate,
+                'student' => $student
+            ];
+        }
 
-        return view('pages.user.index', compact('candidates'));
+        $sortedCompiledData = collect($compiledData)->sortBy('candidate.position_id')->values()->all();
+        // $compiledData[0]->sortBy('position_id');
+
+        return view('pages.user.index', compact('sortedCompiledData'));
     }
 }

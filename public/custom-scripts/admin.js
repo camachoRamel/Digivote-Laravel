@@ -16,8 +16,6 @@ $(document).ready(function() {
 
     $('.progress > .1').width(200);
 
-    // $('#progress')
-
     //render list of candidates
         var groupColumn = 2;
         let candidateTable = $('#candidate-table').DataTable({
@@ -27,7 +25,7 @@ $(document).ready(function() {
             columns: [
                 { sortable: false },
                 {},
-                {},
+                { visible: false },
                 {},
                 { sortable: false },
 
