@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\LoginLogoutController;
 use App\Http\Controllers\UserController;
 use App\Models\Candidate;
 use Illuminate\Support\Facades\Route;
@@ -15,19 +16,27 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', function () {
+    return view('pages.login');
+})->name('index');
 
-Route::get('/admin', [CandidateController::class, 'index'])->name('admin.index');
+Route::post('/login', [LoginLogoutController::class, 'authenticate'])->name('login');
+Route::get('/logout', [LoginLogoutController::class, 'logout']);
+
+
+Route::middleware('isadmin')->group(function () {
+    Route::get('/admin', [CandidateController::class, 'index'])->name('admin.index');
 
 // create
 Route::get('/admin/party-add-candidate', function () {
     return view('pages.admin.party-add-candidate');
 })->name('admin.party-add-candidate');
 
-Route::get('/admin/position-add-candidate', function () {
-    return view('pages.admin.position-add-candidate');
-})->name('admin.position-add-candidate');
+    Route::get('/admin/position-add-candidate', function () {
+        return view('pages.admin.position-add-candidate');
+    })->name('admin.position-add-candidate');
 
-Route::post('admin/candidate-save', [CandidateController::class, 'saveCandidate'])->name('candidate.save');
+    Route::post('admin/candidate-save', [CandidateController::class, 'saveCandidate'])->name('candidate.save');
 
 // read
 Route::get('/admin/candidate-view/{candidate_id}', [CandidateController::class, 'getCandidate'])->name('candidate.view');
@@ -49,3 +58,5 @@ Route::get('/log', [UserController::class, 'index'])->name('user.login');
 Route::get('/', function () {
     return view('pages.login');
 });
+
+
