@@ -6,6 +6,10 @@
 #user-profile-container{
     height: 50px;
     width: 50px;
+    background-image: url('../images/profile.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 #profile-name-container{

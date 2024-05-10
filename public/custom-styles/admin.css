@@ -1,9 +1,6 @@
-:root{
-    --progress-bar-width: 0px;
-}
 #progress{
     max-width: 350px;
-    width: calc(var(--progress-bar-width) + 1000px);
+    width: 0px;
 }
 #cards-container > *{
     height: 100px;
@@ -69,4 +66,8 @@ tbody > tr > td:first-of-type{
 }
 tr input {
     width: 50%;
+}
+
+input[type='search']{
+    padding: 5px 10px;
 }

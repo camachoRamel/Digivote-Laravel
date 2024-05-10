@@ -5,8 +5,12 @@
                 <a href="" class="navbar-brand text-dark fw-bold fs-2">Digivote</a>
 
                 <div class="container-1 justify-content-end d-flex d-lg-none flex-lg-row-reverse gap-2">
-                    <div class="rounded-circle border border-dark text-center position-relative" id="user-profile-container">
-                        IMG
+                    <div class="rounded-circle border border-dark text-center position-relative btn dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{-- <img src="{{ asset('images/profile.jpg') }}" alt="user prof"> --}}
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item" href="#">Log out</a></li>
+                            </ul>
                         <div class="position-absolute" id="profile-name-container">kurdapya</div>
                     </div>
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
@@ -20,17 +24,20 @@
                             <a href="{{ route('admin.index') }}" class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.candidate-poll') }}" class="nav-link">Poll</a>
+                            <a href="{{ route('candidate.poll') }}" class="nav-link">Poll</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.candidate-list') }}" class="nav-link">Candidates</a>
+                            <a href="{{ route('candidate.list') }}" class="nav-link">Candidates</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.voters') }}" class="nav-link">Voters</a>
+                            <a href="{{ route('voters') }}" class="nav-link">Voters</a>
                         </li>
                     </ul>
-                    <div class="rounded-circle d-lg-flex border border-dark justify-content-center position-relative d-none" id="user-profile-container">
-                        IMG
+                    <div class="rounded-circle d-lg-flex border border-dark justify-content-center position-relative d-none btn dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{-- <img src="{{ asset('images/profile.jpg') }}" class="" alt="user prof"> --}}
+                        <ul class="dropdown-menu me-5" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                        </ul>
                         <div class="position-absolute" id="profile-name-container">kurdapya</div>
                     </div>
                 </div>
