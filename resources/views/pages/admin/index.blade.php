@@ -13,8 +13,6 @@
         {{ session('danger') }}
     </div>
     @endif
-    {{-- <a href="{{ route('candidate.test') }}">Test</a> --}}
-    {{-- <main class="container bg-light d-flex flex-column gap-4 p-1"> --}}
         <div class="container-fluid">
             <h3 class="fw-bold">Final Voting Time:</h3>
             <p>12:00AM-02/02/24 --- 12:00AM-03/02/24</p>
@@ -25,7 +23,7 @@
                     <h5 class="me-auto">Overall Candidates</h5>
                     <div class="d-flex gap-3 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href="{{ route('admin.candidate-list') }}" class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href="{{ route('candidate.list') }}" class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
                 </div>
                 {{-- <div class="col p-4 shadow d-flex align-items-center">
@@ -39,7 +37,7 @@
                     <h5 class="me-auto">Overall Voters</h5>
                     <div class="d-flex gap-3 justify-content-end">
                         <h5 class="fw-bold fs-2">00</h5>
-                        <a href=" {{ route('admin.voters') }} " class="btn btn-outline-dark my-auto">Show all</a>
+                        <a href=" {{ route('voters') }} " class="btn btn-outline-dark my-auto">Show all</a>
                     </div>
                 </div>
             </div>
@@ -47,19 +45,53 @@
 
 
         <!-- tally -->
-        <div class="container shadow py-2 gap-2 position-relative" id="window-container">
+        <div class="container shadow py-2 gap-2" id="window-container">
 
             <div class="row">
-                <button type="button" class="btn fs-5 ms-auto fw-bold" style="width: fit-content;">ICON</button>
+                <div class="container fs-4 fw-bold">
+                    Tally of Candidates
+                </div>
+                {{-- <button type="button" class="btn fs-5 ms-auto fw-bold" style="width: fit-content;">ICON</button> --}}
             </div>
-
 
             <!-- Tally main container -->
-            <div class="row overflow-auto py-3 d-flex gap-2" id="main-tally-container">
-               <!-- Rows are added dynamically -->
+            <div class="row px-4 mb-2">
+
+                <table class="table table-borderless" id="tally-table">
+                    <thead>
+                        <tr>
+                            <th class="col-4">Candidate</th>
+                            <th class="col-6">Poll</th>
+                            <th class="col-2">Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $count = 0;
+                        @endphp
+                        @foreach ($compiledData as $data)
+                            @php
+                                $count++;
+                            @endphp
+                            <tr>
+                                <td class="fs-5 fw-bold">{{ $data['student']->stud_lastname }}, {{ $data['student']->stud_firstname }} {{ $data['student']->stud_middlename }}</td>
+                                <td>
+                                    <div class="progress rounded-0 me-auto">
+                                        <div class="progress-bar {{ "{$count}" }}" id="progress" role="progressbar">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="fs-5 fw-bold">{{ $data['candidate']->vote }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
 
-            <a href="{{ route('admin.candidate-poll') }}" class="btn btn-dark position-absolute bottom-0 end-0 m-5 ">Show all</a>
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('candidate.poll') }}" class="btn btn-dark ">Show all</a>
+            </div>
 
         </div>
         <!-- tally -->
@@ -90,8 +122,9 @@
                                 $candidatePosition = $data['candidate']->position_id;
                                 $candidateID = $data['candidate']->candidate_id;
                                 $partyIcon = $data['party']->party_img ?? null;
-                                $test = null;
+                                $votes = $data['candidate']->vote;
                             @endphp
+
 
 
                             @if($party !== null)
@@ -139,7 +172,7 @@
 
             <div class="row py-2">
                 <div class="col d-flex gap-2 justify-content-end">
-                    <a href="{{ route('admin.candidate-list') }}" class="btn btn-secondary">Show all</a>
+                    <a href="{{ route('candidate.list') }}" class="btn btn-secondary">Show all</a>
                     <div class="dropdown">
                         <button type="button" class="btn btn-dark" id="add-dropdown" data-bs-toggle="dropdown" aria-expanded="false">Add</button>
                         <ul class="dropdown-menu" aria-labelledby="add-dropdown">
@@ -154,11 +187,6 @@
 
         </div>
 
-    {{-- </main> --}}
-    {{-- <script defer>
-        var candidateEditRoute = "{{ route('admin.candidate-edit') }}";
-        var candidateViewRoute = "{{ route('admin.candidate-view') }}";
-    </script> --}}
     <script defer src="{{ asset('custom-scripts/admin.js') }}"></script>
 
 @endsection
