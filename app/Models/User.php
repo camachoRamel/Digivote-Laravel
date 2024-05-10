@@ -16,8 +16,11 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
+    protected $primaryKey = 'user_id';
     protected $guarded = [];
-
+    protected $casts = [
+        'password' => 'hashed'
+    ];
 
     public function voter() : HasOne{
         return $this->hasOne(Voter::class);

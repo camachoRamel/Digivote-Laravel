@@ -11,6 +11,7 @@ class Voter extends Model
     use HasFactory;
 
     protected $table = 'voters';
+    protected $primaryKey = 'voter_id';
 
     protected $guarded = [];
 
