@@ -157,7 +157,7 @@ class CandidateController extends Controller
 
     public function displayVoters()
     {
-        $students = Student::select('stud_id', 'stud_firstname', 'stud-middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
+        $students = Student::select('stud_id', 'stud_firstname', 'stud_middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
 
         return view('pages.admin.voters', compact('students'));
     }
