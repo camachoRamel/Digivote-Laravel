@@ -55,6 +55,10 @@ Route::get('/admin/voters', [CandidateController::class, 'displayVoters'])->name
 
 Route::get('/log', [UserController::class, 'index'])->name('user.login');
 
+Route::get('/admin/import-students', function() {
+    return view('pages.admin.import-students');
+})->name('import.students');
+
 Route::get('/', function () {
     return view('pages.login');
 });
