@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\Party;
 use App\Models\Student;
+use App\Models\Position;
 
 class CandidateController extends Controller
 {
@@ -24,7 +25,11 @@ class CandidateController extends Controller
                 'student' => $student
             ];
         }
-        return view('pages.admin.index', compact('compiledData'));
+
+
+        $sortedCompiledData = collect($compiledData)->sortBy('candidate.position_id')->values()->all();
+
+        return view('pages.admin.index', compact('sortedCompiledData'));
     }
 
     public function saveCandidate(Request $request)
@@ -157,8 +162,28 @@ class CandidateController extends Controller
 
     public function displayVoters()
     {
-        $students = Student::select('stud_id', 'stud_firstname', 'stud-middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
+        $students = Student::select('stud_id', 'stud_firstname', 'stud_middlename', 'stud_lastname', 'stud_course', 'stud_year', 'stud_cp_num')->get();
 
         return view('pages.admin.voters', compact('students'));
+    }
+
+    public function displayBallotSheet()
+    {
+        $candidates = Candidate::select('candidate_id', 'position_id', 'stud_id', 'party_id', 'vote')->get();
+        // $candidates->sortBy('position_id');
+        // Assuming you want to associate each candidate with a student
+        $compiledData = [];
+        foreach ($candidates as $candidate) {
+            $student = Student::where('stud_id', $candidate->stud_id)->first();
+            $compiledData[] = [
+                'candidate' => $candidate,
+                'student' => $student
+            ];
+        }
+
+        $sortedCompiledData = collect($compiledData)->sortBy('candidate.position_id')->values()->all();
+        // $compiledData[0]->sortBy('position_id');
+
+        return view('pages.user.index', compact('sortedCompiledData'));
     }
 }

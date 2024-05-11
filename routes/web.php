@@ -21,7 +21,7 @@ Route::get('/', function () {
 })->name('index');
 
 Route::post('/login', [LoginLogoutController::class, 'authenticate'])->name('login');
-Route::get('/logout', [LoginLogoutController::class, 'logout']);
+Route::post('/logout', [LoginLogoutController::class, 'logout'])->name('logout');
 
 
 Route::middleware('isadmin')->group(function () {
@@ -59,4 +59,4 @@ Route::get('/', function () {
     return view('pages.login');
 });
 
-
+Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('user.index');

@@ -16,14 +16,20 @@ $(document).ready(function() {
 
     $('.progress > .1').width(200);
 
-    // $('#progress')
-
     //render list of candidates
         var groupColumn = 2;
         let candidateTable = $('#candidate-table').DataTable({
             scrollY: 500,
             paging: false,
             info: false,
+            columns: [
+                { sortable: false },
+                {},
+                { visible: false },
+                {},
+                { sortable: false },
+
+            ],
             order: [[groupColumn, 'asc']],
 
             drawCallback: function (settings) {
@@ -74,4 +80,11 @@ $(document).ready(function() {
             }
         });
 
+    $('#test').on('click', function(){
+        console.log('test')
+    });
+
+    $('form').submit(function(event) {
+        console.log(1)
+    })
 });
