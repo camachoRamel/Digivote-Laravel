@@ -54,4 +54,4 @@ Route::middleware('is-admin')->group(function () {
 
 });
 
-
+Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('user.index');
