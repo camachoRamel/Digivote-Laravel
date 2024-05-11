@@ -13,6 +13,9 @@
         {{ session('danger') }}
     </div>
     @endif
+        <div class="container-fluid d-flex justify-content-end">
+            <a class="btn btn-outline-dark" href="{{ route('import.students') }}">Import Students</a>
+        </div>
         <div class="container-fluid">
             <h3 class="fw-bold">Final Voting Time:</h3>
             <p>12:00AM-02/02/24 --- 12:00AM-03/02/24</p>
