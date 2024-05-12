@@ -3,6 +3,7 @@
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\LoginLogoutController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoterController;
 use App\Models\Candidate;
 use Illuminate\Support\Facades\Route;
 
@@ -56,13 +57,14 @@ Route::middleware('is-admin')->group(function () {
     Route::get('/admin/candidate-list', [CandidateController::class, 'displayCandidates'])->name('candidate.list');
     Route::get('/admin/voters', [CandidateController::class, 'displayVoters'])->name('voters');
 
-Route::get('/admin/import-students', function() {
-    return view('pages.admin.import-students');
-})->name('import.students');
+    Route::get('/admin/import-students', function() {
+        return view('pages.admin.import-students');
+    })->name('import.students');
 });
 
 // USER ROUTES
-Route::middleware('is-admin')->group(function () {
+Route::middleware('is-user')->group(function () {
     Route::get('/verify{id}', [UserController::class, 'index'])->name('user.index');
     Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('voter.index');
+    Route::post('/create-voter', [VoterController::class, 'create'])->name('voter.create');
 });

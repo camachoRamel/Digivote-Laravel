@@ -15,7 +15,7 @@
                                     </form>
                                 </li>
                             </ul>
-                        <div class="position-absolute" id="profile-name-container">kurdapya</div>
+                        <div class="position-absolute" id="profile-name-container">{{ Auth::user()->username }}</div>
                     </div>
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
                                 </form>
                             </li>
                         </ul>
-                        <div class="position-absolute" id="profile-name-container">kurdapya</div>
+                        <div class="position-absolute" id="profile-name-container">{{ Auth::user()->username }}</div>
                     </div>
                 </div>
             </div>

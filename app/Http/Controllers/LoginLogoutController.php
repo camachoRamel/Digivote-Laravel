@@ -21,7 +21,7 @@ class LoginLogoutController extends Controller
             if(Auth::user()->role === 1){
                 return redirect()->route('admin.index');
             }else if(Auth::user()->role === 0){
-                if(LoginLogoutController::checkIfVoter(Auth::id())){
+                if(!LoginLogoutController::checkIfVoter(Auth::id())){
                     return redirect()->route('user.index', Auth::id());
 
                 }
