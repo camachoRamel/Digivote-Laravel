@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginLogoutController extends Controller
 {
     public function authenticate(Request $request){
+
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required'
@@ -18,11 +20,14 @@ class LoginLogoutController extends Controller
 
             if(Auth::user()->role === 1){
                 return redirect()->route('admin.index');
-            }
+            }else if(Auth::user()->role === 0){
+                if(LoginLogoutController::checkIfVoter(Auth::id())){
+                    return redirect()->route('user.index', Auth::id());
 
-            // else if(Auth::user()->role === 1){
-            //     return redirect()->route('user.index');
-            // }
+                }
+                return redirect()->route('voter.index', Auth::id());
+
+            }
         }
         return redirect('/')->with('incorrect', 'Incorrect password or username');
 
@@ -35,4 +40,10 @@ class LoginLogoutController extends Controller
         return redirect('/');
     }
 
+    public function checkIfVoter($id){
+        $userCheck = DB::table('voters')
+        ->where('user_id', $id)
+        ->exists();
+        return $userCheck;
+    }
 }

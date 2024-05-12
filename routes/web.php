@@ -19,11 +19,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pages.login');
 })->name('index');
+Route::get('/forgot-password', function () {
+    return view('pages.otp');
+})->name('forgot-password');
 
 Route::post('/login', [LoginLogoutController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginLogoutController::class, 'logout'])->name('logout');
 
 
+// ADMIN ROUTES
 Route::middleware('is-admin')->group(function () {
     Route::get('/admin', [CandidateController::class, 'index'])->name('admin.index');
         // create
@@ -54,4 +58,8 @@ Route::middleware('is-admin')->group(function () {
 
 });
 
-Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('user.index');
+// USER ROUTES
+Route::middleware('is-admin')->group(function () {
+    Route::get('/verify{id}', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('voter.index');
+});
