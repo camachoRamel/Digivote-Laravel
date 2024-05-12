@@ -56,6 +56,9 @@ Route::middleware('is-admin')->group(function () {
     Route::get('/admin/candidate-list', [CandidateController::class, 'displayCandidates'])->name('candidate.list');
     Route::get('/admin/voters', [CandidateController::class, 'displayVoters'])->name('voters');
 
+Route::get('/admin/import-students', function() {
+    return view('pages.admin.import-students');
+})->name('import.students');
 });
 
 // USER ROUTES
