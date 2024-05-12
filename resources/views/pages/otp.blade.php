@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-    $pageTitle = "OTP"; 
-    include('../includes/head.php');
-?>
+@extends('layouts.default')
+<title>Forgot Password</title>
 <link rel="stylesheet" href="../custom-styles/otp.css">
-<body>
+
+@section('content')
     <div class="d-flex justify-content-center align-items-center container">
         <div class="card py-5 px-3">
             <h5 class="m-0">Mobile phone verification</h5>
@@ -23,5 +20,7 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+
+@endsection
