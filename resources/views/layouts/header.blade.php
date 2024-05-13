@@ -5,17 +5,24 @@
                 <a href="" class="navbar-brand text-dark fw-bold fs-2">Digivote</a>
 
                 <div class="container-1 justify-content-end d-flex d-lg-none flex-lg-row-reverse gap-2">
-                    <div class="rounded-circle border border-dark text-center position-relative btn dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{-- <img src="{{ asset('images/profile.jpg') }}" alt="user prof"> --}}
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li class="p-0">
-                                    <form action="{{ route('logout') }}" method="post" id="logout-form-1">
-                                        @csrf
-                                        <button id="logout-btn" type="submit" class="btn">Log out</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        <div class="position-absolute" id="profile-name-container">{{ Auth::user()->username }}</div>
+
+                    <div class="d-flex d-lg-none flex-column justify-content-center align-items-center">
+                        <div class="row">
+                            <div class="rounded-circle border border-dark text-center btn dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{-- <img src="{{ asset('images/profile.jpg') }}" alt="user prof"> --}}
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li class="p-0">
+                                        <form action="{{ route('logout') }}" method="post" id="logout-form-1">
+                                            @csrf
+                                            <button id="logout-btn" type="submit" class="btn">Log out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div>{{ Auth::user()->username }}</div>
+                        </div>
                     </div>
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -37,17 +44,23 @@
                             <a href="{{ route('voters') }}" class="nav-link">Voters</a>
                         </li>
                     </ul>
-                    <div class="rounded-circle d-lg-flex border border-dark justify-content-center position-relative d-none btn dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-none d-lg-flex flex-column justify-content-center align-items-center">
                         {{-- <img src="{{ asset('images/profile.jpg') }}" class="" alt="user prof"> --}}
-                        <ul class="dropdown-menu me-5" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <form action="{{ route('logout') }}" method="post" id="logout-form-2">
-                                    @csrf
-                                    <button id="logout-btn" type="submit" class="btn">Log out</button>
-                                </form>
-                            </li>
-                        </ul>
-                        <div class="position-absolute" id="profile-name-container">{{ Auth::user()->username }}</div>
+                        <div class="row">
+                            <div class="rounded-circle border border-dark d-none d-lg-flex btn-group dropstart" id="user-profile-container" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <ul class="dropdown-menu p-0" aria-labelledby="dropdownMenuLink">
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="post" id="logout-form-2">
+                                            @csrf
+                                            <button id="logout-btn" type="submit" class="btn">Log out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div>{{ Auth::user()->username }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
