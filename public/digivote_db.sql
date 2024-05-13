@@ -26,22 +26,16 @@ DROP TABLE IF EXISTS `candidates`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `candidates` (
   `candidate_id` int NOT NULL AUTO_INCREMENT,
-  `position_id` int DEFAULT NULL,
-  `stud_id` varchar(10) DEFAULT NULL,
+  `position_id` int NOT NULL,
+  `stud_id` varchar(10) NOT NULL,
   `party_id` int DEFAULT NULL,
   `is_winner` tinyint DEFAULT '0',
   `vote` int unsigned DEFAULT '0',
-  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` timestamp NULL DEFAULT NULL,
-  `date_deleted` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`candidate_id`),
-  UNIQUE KEY `stud_id` (`stud_id`),
-  KEY `FK_CandidatesPosition` (`position_id`),
-  KEY `FK_CandidatesParties` (`party_id`),
-  CONSTRAINT `FK_CandidatesParties` FOREIGN KEY (`party_id`) REFERENCES `parties` (`party_id`),
-  CONSTRAINT `FK_CandidatesPosition` FOREIGN KEY (`position_id`) REFERENCES `positions` (`position_id`),
-  CONSTRAINT `FK_CandidatesStudents` FOREIGN KEY (`stud_id`) REFERENCES `students` (`stud_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`candidate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,6 +45,30 @@ CREATE TABLE `candidates` (
 LOCK TABLES `candidates` WRITE;
 /*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
 /*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `migrations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -64,9 +82,9 @@ CREATE TABLE `parties` (
   `party_id` int NOT NULL AUTO_INCREMENT,
   `party_name` varchar(30) NOT NULL,
   `party_img` varchar(50) NOT NULL,
-  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` timestamp NULL DEFAULT NULL,
-  `date_deleted` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`party_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -119,6 +137,8 @@ CREATE TABLE `students` (
   `stud_course` varchar(20) NOT NULL,
   `stud_year` int NOT NULL,
   `stud_cp_num` varchar(13) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`stud_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -129,7 +149,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES ('2022-61595','Ramel Jr.','Jeremias','Camacho','BSIT',2,'09121733929');
+INSERT INTO `students` VALUES ('2022-61595','Ramel Jr.','Jeremias','Camacho','BSIT',2,'09121733929','2024-05-11 02:20:46',NULL),('2159-00364','Jabari','Tugano','Murray','BSIS',1,'41610535142','2024-05-10 18:23:43','2024-05-10 18:23:43'),('4201-93871','Alexis','Sarmiento','Hagenes','BSIT',1,'00243308203','2024-05-10 18:23:43','2024-05-10 18:23:43'),('4616-11134','Brigitte','Million','Ebert','BSIS',1,'31440096489','2024-05-10 18:23:42','2024-05-10 18:23:42'),('4899-09722','Rhett','Avila','Schroeder','BSIS',3,'14300140184','2024-05-10 18:23:42','2024-05-10 18:23:42'),('5903-91046','Tracey','Tugano','Brakus','BSIS',2,'48450584445','2024-05-10 18:23:42','2024-05-10 18:23:42'),('6230-92316','Colt','Tabuzo','Stark','BSIT',3,'28586550691','2024-05-10 18:23:42','2024-05-10 18:23:42'),('8804-76140','Taurean','Avila','Reilly','BSIS',1,'34315681563','2024-05-10 18:23:41','2024-05-10 18:23:41'),('9046-94454','Magdalena','Tugano','Goyette','BSIT',4,'13532442025','2024-05-10 18:23:42','2024-05-10 18:23:42'),('9721-05964','Randy','Million','Pouros','BSIS',4,'03703822225','2024-05-10 18:23:42','2024-05-10 18:23:42'),('9731-96076','Miller','Camacho','Rowe','BSIS',3,'57855172523','2024-05-10 18:23:42','2024-05-10 18:23:42');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,12 +165,14 @@ CREATE TABLE `users` (
   `stud_id` varchar(10) DEFAULT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `role` int NOT NULL,
-  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` timestamp NULL DEFAULT NULL,
-  `date_deleted` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `role` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `stud_id` (`stud_id`),
+  CONSTRAINT `FK_UsersStudents` FOREIGN KEY (`stud_id`) REFERENCES `students` (`stud_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +181,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,NULL,'admin','admin',1,'2024-04-16 09:55:23',NULL,NULL);
+INSERT INTO `users` VALUES (1,NULL,'admin','$2y$12$.QLCqCYlPNGu2YuPoQ6fxeTzC/YJQ5U/1cxKcSwM/rFEJ9BZo9f3y',1,'2024-04-16 09:55:23',NULL,NULL),(2,'2022-61595','camacho','$2y$12$zzXX.VKfYMJ00/0zbtoo5u3l/XL6FEG1daLgQiRwjY8XQhoIjwpcO',0,'2024-05-08 04:54:39','2024-05-12 07:48:22',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,12 +194,15 @@ DROP TABLE IF EXISTS `voters`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voters` (
   `voter_id` int NOT NULL AUTO_INCREMENT,
-  `has_voted` tinyint DEFAULT NULL,
-  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` timestamp NULL DEFAULT NULL,
-  `date_deleted` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`voter_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` bigint DEFAULT NULL,
+  `has_voted` tinyint DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`voter_id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `FK_VotersUsers` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +211,7 @@ CREATE TABLE `voters` (
 
 LOCK TABLES `voters` WRITE;
 /*!40000 ALTER TABLE `voters` DISABLE KEYS */;
+INSERT INTO `voters` VALUES (1,2,0,'2024-05-12 07:48:22','2024-05-12 07:48:22',NULL);
 /*!40000 ALTER TABLE `voters` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -198,4 +224,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-28 17:16:27
+-- Dump completed on 2024-05-13 14:27:02
