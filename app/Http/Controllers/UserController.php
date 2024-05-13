@@ -19,4 +19,8 @@ class UserController extends Controller
 
         return view('pages.verify', compact('user'));
     }
+
+    public function create(){
+        
+    }
 }

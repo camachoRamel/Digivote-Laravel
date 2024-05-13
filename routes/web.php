@@ -60,6 +60,8 @@ Route::middleware('is-admin')->group(function () {
     Route::get('/admin/import-students', function() {
         return view('pages.admin.import-students');
     })->name('import.students');
+
+    Route::post('/admin/user-create', [UserController::class, 'create'])->name('user.create');
 });
 
 // USER ROUTES
