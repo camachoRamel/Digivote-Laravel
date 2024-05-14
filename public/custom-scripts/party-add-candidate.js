@@ -11,7 +11,6 @@ $(document).ready(function() {
     };
 
     let selectBtnGen = '<button type="button" class="btn btn-dark" id="select-btn">select</button>';
-    let removeBtnGen = '<button type="button" class="btn btn-dark" id="remove-btn">remove</button>';
     let clickedPosi;
     let icon;
 
@@ -21,7 +20,7 @@ $(document).ready(function() {
         // If ajax success pass the response into an array, as the array will serve as the dataset for the data table
         success: function(response){
             response.forEach(element => {
-                let initialize = {name: `${element['name']}`, id: `${element['id']}`, selectBtn: `${selectBtnGen}`, removeBtn: `${removeBtnGen}`};
+                let initialize = {name: `${element['name']}`, id: `${element['id']}`, selectBtn: `${selectBtnGen}`};
                 dataset.push(initialize);
             });
 
@@ -80,10 +79,24 @@ $(document).ready(function() {
                 //get the current position clicked
                 $('.position-btn').click(function(){
                     clickedPosi = $(this).attr('id');
-                    $(`button#${clickedPosi}`).removeClass('btn-outline-dark').addClass('btn-dark')
+                    $(`.position-btn#${clickedPosi}`).removeClass('btn-outline-dark').addClass('btn-dark')
                     //remove event listener to prevent clicking other select btn
                     $('.position-btn').off('click');
                     selectionTableEvent();
+                });
+            }
+
+            function removeCandidate(){
+                $('.remove-btn').on('click', function(){
+                    clickedPosi = $(this).attr('id');
+                    var getInputVal = $(`input#${clickedPosi}`).val();
+
+                    if (getInputVal !== '') {
+                        $(`input#${clickedPosi}`).val("");
+                        let temporaryData = positions[`${clickedPosi}`];
+                        selectionTable.row.add(temporaryData).draw();
+                        positions[`${clickedPosi}`] = {name: '', id: '', position: ''};
+                    }
                 });
             }
 
@@ -224,6 +237,7 @@ $(document).ready(function() {
                 });
             });
             determinePosition();
+            removeCandidate();
         }
     });
 });
