@@ -5,7 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-center align-items-center container">
         <div class="card py-5 px-3">
-            <form action="{{ route('forgot-password') }}" method="get">
+            <form action="{{ route('send.otp')}}" method="get">
                 @csrf
                 <p class="fs-5 fw-bold">Enter your Phone Number</p>
                 <div class="form-floating mb-3">
