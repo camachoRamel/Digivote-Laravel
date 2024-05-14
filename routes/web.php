@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LoginLogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
@@ -17,16 +18,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/user/send-otp', function(){
-    return view('pages.send-otp');
-})->name('send-otp');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.index');
+Route::get('/forgot-password/otp',[ForgotPasswordController::class, 'sendOTP'])->name('send.otp');
+Route::get('/forgot-password/otp/cheking/{id}', [ForgotPasswordController::class, 'checkOTP'])->name('check.otp');
+// Route::get('/change-password', function (){
+//     return view('pages.change-password');
+// })->name('change-password.view');
+Route::post('/change-password/confirm/{id}', [ForgotPasswordController::class, 'changePassword'])->name('forgot.reset');
 
 Route::get('/', function () {
     return view('pages.login');
 })->name('index');
-Route::get('/forgot-password', function () {
-    return view('pages.otp');
-})->name('forgot-password');
 
 Route::post('/login', [LoginLogoutController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginLogoutController::class, 'logout'])->name('logout');
