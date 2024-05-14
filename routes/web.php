@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/user/send-otp', function(){
+    return view('pages.send-otp');
+})->name('send-otp');
+
 Route::get('/', function () {
     return view('pages.login');
 })->name('index');
