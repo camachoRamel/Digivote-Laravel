@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\Party;
 use App\Models\Student;
-use App\Models\Position;
+use App\Models\Voter;
 use Illuminate\Support\Facades\Log;
 
 
@@ -194,12 +194,13 @@ class CandidateController extends Controller
         return view('pages.user.index', compact('sortedCompiledData'));
     }
 
-    public function updateVotes(Request $request)
+    public function updateVotes(Request $request, )
     {
         $validatedData = $request->validate([
             'candidates' => 'required|array',
             'candidates.*.candidate_id' => 'required|string|max:10',
-            'candidates.*.position_id' => 'required|integer'
+            'candidates.*.position_id' => 'required|integer',
+            'user_id' => 'required'
         ]);
 
         $candidates = $validatedData['candidates'];
@@ -210,8 +211,14 @@ class CandidateController extends Controller
             if ($voteUpdate) {
                 $voteUpdate->vote = $voteUpdate->vote + 1;
                 $voteUpdate->save();
-
             }
+        }
+
+        $updateVoteStatus = Voter::where('user_id', $validatedData['user_id'])->first();
+
+        if($updateVoteStatus){
+            $updateVoteStatus->has_voted = $updateVoteStatus->has_voted + 1;
+            $updateVoteStatus->save();
         }
 
         return response()->json(['message' => 'Votes updated successfully', 'redirect_url' => route('has.voted')], 200);
