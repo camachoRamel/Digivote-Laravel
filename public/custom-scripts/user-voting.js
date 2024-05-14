@@ -141,6 +141,7 @@ $(document).ready(function() {
         };
 
         formData['_token'] =  `${csrfToken}`;
+        formData['user_id'] = `${userID}`;
 
         // Send the data to the Laravel controller using AJAX
         $.ajax({

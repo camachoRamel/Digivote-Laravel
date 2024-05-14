@@ -81,6 +81,7 @@
 
     <script defer>
         const csrfToken = "{{ csrf_token() }}";
+        const userID = "{{ Auth::id() }}";
     </script>
     <script defer src="{{ asset('custom-scripts/user-voting.js') }}"></script>
 
