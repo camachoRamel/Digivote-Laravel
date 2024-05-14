@@ -7,6 +7,8 @@ use App\Models\Candidate;
 use App\Models\Party;
 use App\Models\Student;
 use App\Models\Position;
+use Illuminate\Support\Facades\Log;
+
 
 class CandidateController extends Controller
 {
@@ -26,7 +28,6 @@ class CandidateController extends Controller
             ];
         }
 
-
         $sortedCompiledData = collect($compiledData)->sortBy('candidate.position_id')->values()->all();
 
         return view('pages.admin.index', compact('sortedCompiledData'));
@@ -34,37 +35,43 @@ class CandidateController extends Controller
 
     public function saveCandidate(Request $request)
     {
-        $validatedData = $request->validate([
-            'candidates' => 'required|array',
-            'candidates.*.party_name' => 'nullable|string|max:30|unique:parties,party_name',
-            'candidates.*.party_img' => 'nullable|string|max:50|required_unless:candidates.*.party_name,null',
-            'candidates.*.stud_id' => 'required|string|max:10',
-            'candidates.*.position_id' => 'required|integer'
-        ]);
-
-        $candidates = $validatedData['candidates'];
-
-        if ($candidates[0]['party_name'] !== null) {
-            $party = Party::create([
-                'party_name' => $candidates[0]['party_name'],
-                'party_img' => $candidates[0]['party_img']
+        try {
+            $validatedData = $request->validate([
+                'candidates' => 'required|array',
+                'candidates.*.party_name' => 'nullable|string|max:30|unique:parties,party_name',
+                'candidates.*.party_img' => 'nullable|string|max:50|required_unless:candidates.*.party_name,null',
+                'candidates.*.stud_id' => 'required|string|max:10',
+                'candidates.*.position_id' => 'required|integer'
             ]);
-        }
-        foreach ($candidates as $candidate) {
-            if($candidate['party_name'] !== null){
-                Candidate::create([
-                    'stud_id' => $candidate['stud_id'],
-                    'position_id' => $candidate['position_id'],
-                    'party_id' => $party->getKey()
-                ]);
-            } else {
-                Candidate::create([
-                    'stud_id' => $candidate['stud_id'],
-                    'position_id' => $candidate['position_id'],
+
+            $candidates = $validatedData['candidates'];
+
+            if ($candidates[0]['party_name'] !== null) {
+                $party = Party::create([
+                    'party_name' => $candidates[0]['party_name'],
+                    'party_img' => $candidates[0]['party_img']
                 ]);
             }
+
+            foreach ($candidates as $candidate) {
+                if ($candidate['party_name'] !== null) {
+                    Candidate::create([
+                        'stud_id' => $candidate['stud_id'],
+                        'position_id' => $candidate['position_id'],
+                        'party_id' => $party->getKey()
+                    ]);
+                } else {
+                    Candidate::create([
+                        'stud_id' => $candidate['stud_id'],
+                        'position_id' => $candidate['position_id'],
+                    ]);
+                }
+            }
+
+            return response()->json(['redirect_url' => route('admin.index'), 'message' => 'Candidate/s record has been successfully created']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
         }
-        return response()->json(['redirect_url' => route('admin.index')]);
     }
 
     public function getCandidate(int $id)
@@ -185,5 +192,33 @@ class CandidateController extends Controller
         // $compiledData[0]->sortBy('position_id');
 
         return view('pages.user.index', compact('sortedCompiledData'));
+    }
+
+    public function updateVotes(Request $request)
+    {
+        $validatedData = $request->validate([
+            'candidates' => 'required|array',
+            'candidates.*.candidate_id' => 'required|string|max:10',
+            'candidates.*.position_id' => 'required|integer'
+        ]);
+
+        $candidates = $validatedData['candidates'];
+
+        foreach ($candidates as $candidate) {
+            $voteUpdate = Candidate::where('candidate_id', $candidate['candidate_id'])->first();
+
+            if ($voteUpdate) {
+                $voteUpdate->vote = $voteUpdate->vote + 1;
+                $voteUpdate->save();
+
+            }
+        }
+
+        return response()->json(['message' => 'Votes updated successfully', 'redirect_url' => route('has.voted')], 200);
+    }
+
+    public function hasVoted()
+    {
+        return view('pages.user.after-vote');
     }
 }

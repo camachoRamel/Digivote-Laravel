@@ -71,4 +71,6 @@ Route::middleware('is-user')->group(function () {
     Route::get('/verify{id}', [UserController::class, 'index'])->name('user.index');
     Route::get('/user', [CandidateController::class, 'displayBallotSheet'])->name('voter.index');
     Route::post('/create-voter', [VoterController::class, 'create'])->name('voter.create');
+    Route::post('/user/submit-vote', [CandidateController::class, 'updateVotes'])->name('user.vote');
+    Route::get('/user/hasVoted', [CandidateController::class, 'hasVoted'])->name('has.voted');
 });

@@ -160,6 +160,7 @@ $(document).ready(function() {
                     method: 'POST',
                     data: formData,
                     success: function(response) {
+                        alert(response.message);
                         window.location.href = response.redirect_url;
                     },
                     error: function(xhr, status, error) {
