@@ -80,7 +80,7 @@
                                 <td class="fs-5 fw-bold">{{ $data['student']->stud_lastname }}, {{ $data['student']->stud_firstname }} {{ $data['student']->stud_middlename }}</td>
                                 <td>
                                     <div class="progress rounded-0 me-auto">
-                                        <div class="progress-bar {{ "{$count}" }}" id="progress" role="progressbar">
+                                        <div class="progress-bar {{ "{$count}" }}" id="progress" role="progressbar" style="width: {{ $data['candidate']->vote }};">
                                         </div>
                                     </div>
                                 </td>
