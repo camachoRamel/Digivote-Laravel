@@ -5,7 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-center align-items-center container">
         <div class="card py-5 px-3">
-            <form action="{{ route('check.otp', $userID->user_id)  }}" method="POST">
+            <form action="{{ route('check.otp', $userID->user_id)}}" method="GET">
                 @csrf
                 <h5 class="m-0">Mobile phone verification</h5>
                 <span class="mobile-text">Enter the code we just send on your mobile phone <b class="text-danger">{{$user->stud_cp_num}}</b></span>

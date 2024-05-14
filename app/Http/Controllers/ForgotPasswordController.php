@@ -50,9 +50,13 @@ class ForgotPasswordController extends Controller
         return $userCheck;
     }
 
+    // public function changePassword(){
+
+    // }
+
+    //CHECK OTP
     public function checkOTP(Request $request, $id)
     {
-
         $validated = $request->validate([
             'one' => 'required',
             'two' => 'required',
@@ -66,11 +70,16 @@ class ForgotPasswordController extends Controller
         $otpExist = DB::table('otps')
         ->where('otp', $otp)
         ->exists();
+        $currUserID = DB::table('users')
+        ->select('user_id')
+        ->where('user_id', $id)
+        ->first();
         if($idExist && $otpExist){
-            //redicrect to change password
+            // dd($currUserID->user_id);
+            return view('pages.change-password', compact('currUserID'));
         }
 
-        return redirect()->back()->with('incorrect', 'Wrong OTP');
+        return view('pages.change-password')->with('incorrect', 'Wrong OTP');
 
 
     }
@@ -100,5 +109,16 @@ class ForgotPasswordController extends Controller
         }
         OneTimePin::create(['otp' => $otp, 'user_id' => $id]);
         return $otp;
+    }
+
+    public function changePassword(Request $request, $id){
+        $validated = $request->validate([
+            'password' => 'required|confirmed|min:8'
+        ]);
+        $user = User::find($id);
+        $user->update($validated);
+
+        return redirect()->route('index');
+
     }
 }

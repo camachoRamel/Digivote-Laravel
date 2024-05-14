@@ -13,6 +13,9 @@
                     <label for="stud_cp_num">Number</label>
                     <div id="passwordHelpBlock" class="form-text">Eg: 09123456789</div>
                 </div>
+                @if (session()->has('!exist'))
+                    <p class="text-danger">{{ session('!exist') }}</p>
+                @endif
                 <div class="row text-end">
                     <div class="container-fluid">
                         <button type="submit" class="btn btn-dark">Send OTP</button>

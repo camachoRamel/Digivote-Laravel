@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.index');
 Route::get('/forgot-password/otp',[ForgotPasswordController::class, 'sendOTP'])->name('send.otp');
-Route::post('/forgot-password/otp/cheking/{id}', [ForgotPasswordController::class, 'checkOTP'])->name('check.otp');
+Route::get('/forgot-password/otp/cheking/{id}', [ForgotPasswordController::class, 'checkOTP'])->name('check.otp');
+// Route::get('/change-password', function (){
+//     return view('pages.change-password');
+// })->name('change-password.view');
+Route::post('/change-password/confirm/{id}', [ForgotPasswordController::class, 'changePassword'])->name('forgot.reset');
 
 Route::get('/', function () {
     return view('pages.login');

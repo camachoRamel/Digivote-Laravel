@@ -17,12 +17,6 @@
                   <label for="floatingPassword">Password</label>
                 </div>
 
-                <div class="form-check mb-3">
-                  <input class="form-check-input" type="checkbox" name="remember_me" value="1" id="rememberPasswordCheck">
-                  <label class="form-check-label" for="rememberPasswordCheck">
-                    Remember password
-                  </label>
-                </div>
                 {{-- error --}}
                 @if (session()->has('incorrect'))
                     <p class="text-danger">Incorrect Username or Password</p>

@@ -27,6 +27,8 @@ class LoginLogoutController extends Controller
                 if (!LoginLogoutController::checkIfVoter(Auth::id())) {
                     //if not yet voter
                     return redirect()->route('user.index', Auth::id());
+                }else if(LoginLogoutController::checkIfVoter(Auth::id()) && !LoginLogoutController::checkIfVoted(Auth::id())){
+                    return redirect()->route('has.voted');
                 }
                 return redirect()->route('voter.index', Auth::id());
             }
@@ -50,16 +52,16 @@ class LoginLogoutController extends Controller
         return $userCheck;
     }
 
-    // public function checkIfVoted($id)
-    // {
-    //     if (LoginLogoutController::checkIfVoter($id)) {
-    //         $has_voted = DB::table('voters')
-    //         ->where('user_id', $id)->get('has_voted');
-    //         dd($has_voted);
-    //         if (intval($has_voted) == 0) {
-    //             return true;
-    //         }
-    //         return false;
-    //     }
-    // }
+    public function checkIfVoted($id)
+    {
+        if (LoginLogoutController::checkIfVoter($id)) {
+            $has_voted = DB::table('voters')
+            ->select('has_voted')
+            ->where('user_id', $id)->first();
+            if ($has_voted == '0') {
+                return false;
+            }
+            return true;
+        }
+    }
 }
