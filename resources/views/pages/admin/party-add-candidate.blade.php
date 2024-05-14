@@ -37,36 +37,43 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="president" name="president" placeholder="President" aria-label="President" aria-describedby="president" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="president">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="president">remove</button>
                     </div>
                     {{-- vice president container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="vice_president" name="vice_president" placeholder="Vice President" aria-label="Vice President" aria-describedby="vice_president" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="vice_president">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="vice_president">remove</button>
                     </div>
                     {{-- secretary container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="secretary" name="secretary" placeholder="Secretary" aria-label="Secretary" aria-describedby="secretary" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="secretary">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="secretary">remove</button>
                     </div>
                     {{-- treasurer container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="treasurer" name="treasurer" placeholder="Treasurer" aria-label="Treasurer" aria-describedby="treasurer" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="treasurer">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="treasurer">remove</button>
                     </div>
                     {{-- auditor container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="auditor" name="auditor" placeholder="Auditor" aria-label="Auditor" aria-describedby="auditor" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="auditor">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="auditor">remove</button>
                     </div>
                     {{-- business manager 1 container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="business_manager_1" name="business_manager_1" placeholder="Business Manger 1" aria-label="Business Manger 1" aria-describedby="business_manager_1" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="business_manager_1">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="business_manager_1">remove</button>
                     </div>
                     {{-- business manager 2 container --}}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="business_manager_2" name="business_manager_2" placeholder="Business Manger 2" aria-label="Business Manger 2" aria-describedby="business_manager_2" disabled>
                         <button class="btn btn-outline-dark position-btn" type="button" id="business_manager_2">select candidate</button>
+                        <button class="btn btn-outline-secondary remove-btn" type="button" id="business_manager_2">remove</button>
                     </div>
 
                     <button type="button" class="btn btn-dark w-100 mt-2" id="modal-trigger-btn">Submit</button>

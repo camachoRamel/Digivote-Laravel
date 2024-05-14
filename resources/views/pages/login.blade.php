@@ -2,7 +2,6 @@
 
 <title>Log in</title>
 
-
 @section('content')
 
     <main class="d-flex justify-content-center align-items-center vh-100">
@@ -33,7 +32,7 @@
                 <div class="d-grid">
                   <button class="btn btn-lg btn-dark btn-login text-uppercase fw-bold mb-2" type="submit" name="submit">Sign in</button>
                   <div class="text-center">
-                    <a class="small" href="{{ route('forgot-password') }}">Forgot password?</a>
+                    <a class="small" href="{{ route('send-otp') }}">Forgot password?</a>
                   </div>
                 </div>
               </form>
