@@ -78,6 +78,9 @@
 
    </div>
 
-    <script defer src="{{ asset('custom-scripts/voting.js') }}"></script>
+    <script defer>
+        const csrfToken = "{{ csrf_token() }}";
+    </script>
+    <script defer src="{{ asset('custom-scripts/user-voting.js') }}"></script>
 
 @endsection
