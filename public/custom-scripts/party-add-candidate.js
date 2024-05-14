@@ -228,14 +228,50 @@ $(document).ready(function() {
                     method: 'POST',
                     data: formData,
                     success: function(response) {
+                        alert(response.message);
                         window.location.href = response.redirect_url;
                     },
                     error: function(xhr, status, error) {
-                        console.error(xhr);
-                        console.log(error);
+                        if (xhr.status === 422) {
+                            // Validation failed
+                            let errors = xhr.responseJSON.errors;
+                            let errorMessages = [];
+
+                            for (let key in errors) {
+                                if (errors.hasOwnProperty(key)) {
+                                    errors[key].forEach(message => {
+                                        // Split the message and format it
+                                        let formattedMessage = formatErrorMessage(message);
+                                        errorMessages.push(formattedMessage);
+                                    });
+                                }
+                            }
+
+                            alert(errorMessages[0]);
+                        } else {
+                            console.error(xhr);
+                            console.log(error);
+                        }
                     }
                 });
             });
+
+            function formatErrorMessage(message) {
+                // Split the message on the first dot to remove the index part
+                let parts = message.split('.');
+                if (parts.length > 1) {
+                    message = parts[2].trim();
+                }
+
+                // Capitalize "party_name"
+                message = message.replace('party_name', 'Party name');
+
+                // Capitalize the first letter of the message
+                message = message.charAt(0).toUpperCase() + message.slice(1);
+
+                return message;
+            }
+
             determinePosition();
             removeCandidate();
         }

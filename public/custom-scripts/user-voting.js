@@ -130,7 +130,7 @@ $(document).ready(function() {
             let candidate = positions[key];
             if (candidate.id !== '') {
                 candidatesData.push({
-                    stud_id: candidate.id,
+                    candidate_id: candidate.id,
                     position_id: candidate.position
                 });
             }
@@ -144,10 +144,11 @@ $(document).ready(function() {
 
         // Send the data to the Laravel controller using AJAX
         $.ajax({
-            url: `/user/candidate-vote`,
+            url: `/user/submit-vote`,
             method: 'POST',
             data: formData,
             success: function(response) {
+                alert(response.message)
                 window.location.href = response.redirect_url;
             },
             error: function(xhr, status, error) {
