@@ -70,16 +70,22 @@ class ForgotPasswordController extends Controller
         $otpExist = DB::table('otps')
         ->where('otp', $otp)
         ->exists();
-        $currUserID = DB::table('users')
-        ->select('user_id')
+        $userID = DB::table('users')
+        ->select('user_id', 'stud_id')
         ->where('user_id', $id)
         ->first();
+        $user = DB::table('students')
+                ->select('students.*') // Select all columns from the 'users' table
+                ->join('users', 'users.stud_id', '=', 'students.stud_id') // Join 'users' and 'posts' tables on user_id
+                ->where('students.stud_id', $userID->stud_id) // Filter by post ID
+                ->first();
         if($idExist && $otpExist){
             // dd($currUserID->user_id);
-            return view('pages.change-password', compact('currUserID'));
+            return view('pages.change-password', compact('userID', 'user'));
         }
 
-        return view('pages.change-password')->with('incorrect', 'Wrong OTP');
+
+        return view('pages.otp', compact('user', 'userID'))->with('incorrect', 'Wrong OTP');
 
 
     }
@@ -92,7 +98,7 @@ class ForgotPasswordController extends Controller
 
         $message = $twilio->messages
             ->create(
-                "+639121733929", // to
+                "+639476168206", // to
                 array(
                     "from" => env('TWILIO_PHONE'),
                     "body" => ForgotPasswordController::createOTP($id)
