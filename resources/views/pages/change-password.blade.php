@@ -5,7 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-center align-items-center container">
         <div class="card py-3 px-3">
-            <form action="{{ route('forgot.reset', $currUserID->user_id) }}" method="POST">
+            <form action="{{ route('forgot.reset', $userID->user_id) }}" method="POST">
                 @csrf
                 <p class="fs-5 fw-bold">Change Password</p>
                 <div class="form-floating mb-3">

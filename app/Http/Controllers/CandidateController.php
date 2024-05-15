@@ -200,7 +200,7 @@ class CandidateController extends Controller
             'candidates' => 'required|array',
             'candidates.*.candidate_id' => 'required|string|max:10',
             'candidates.*.position_id' => 'required|integer',
-            'user_id' => 'required'
+            'user_id' => 'required|integer'
         ]);
 
         $candidates = $validatedData['candidates'];
